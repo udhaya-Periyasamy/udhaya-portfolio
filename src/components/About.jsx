@@ -1,566 +1,400 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { GraduationCap, Zap } from 'lucide-react';
-import { education, strengths } from '../data/portfolioData';
-import { SectionHeader, fadeUp } from './AnimationUtils';
+import { GraduationCap, School, Calendar, MapPin } from 'lucide-react';
+import { education } from '../data/portfolioData';
+
+const cardVariant = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.55,
+      delay: i * 0.15,
+      ease: [0.25, 0.4, 0.25, 1],
+    },
+  }),
+};
 
 export default function About() {
+  const [logoErrors, setLogoErrors] = useState({});
+
   return (
     <section
-      id="about"
+      id="education"
       className="section"
       style={{
-        minHeight: 'calc(100vh - 80px)',
-        paddingTop: 40,
-        paddingBottom: 40,
+        position: 'relative',
+        overflow: 'hidden',
+        background: '#080B12',
+        color: '#F8FAFC',
+        paddingTop: 'clamp(56px, 8vh, 88px)',
+        paddingBottom: 'clamp(56px, 8vh, 88px)',
         boxSizing: 'border-box',
       }}
     >
+      {/* ─── Subtle Background Grid & Ambient Lighting ────────────────── */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `
+            linear-gradient(rgba(96, 165, 250, 0.035) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(96, 165, 250, 0.035) 1px, transparent 1px)
+          `,
+          backgroundSize: '48px 48px',
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          width: '560px',
+          height: '560px',
+          top: '20%',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(37, 99, 235, 0.10) 0%, transparent 70%)',
+          filter: 'blur(100px)',
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}
+      />
+
       <div
         className="container"
         style={{
-          height: '100%',
+          position: 'relative',
+          zIndex: 1,
+          maxWidth: '920px',
+          margin: '0 auto',
+          boxSizing: 'border-box',
         }}
       >
-
-        {/* ─── SECTION HEADER ─────────────────────────────── */}
-        <SectionHeader
-          eyebrow="ABOUT ME"
-          title="Who I Am"
-          subtitle="A passionate engineer turning ideas into scalable software solutions."
-        />
-
-        {/* ─── MAIN TWO COLUMN LAYOUT ─────────────────────── */}
-        <div
+        {/* ─── Centered Education Section Header ──────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.55, ease: 'easeOut' }}
           style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: 48,
-            alignItems: 'start',
-            marginTop: 32,
+            textAlign: 'center',
+            marginBottom: 'clamp(36px, 5.5vw, 56px)',
           }}
         >
-
-          {/* ═══════════════════════════════════════════════
-              LEFT SIDE
-              WHO I AM + STRENGTHS
-          ═══════════════════════════════════════════════ */}
           <div
             style={{
-              display: 'flex',
-              flexDirection: 'column',
-              height: '100%',
-              gap: 28,
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 14,
             }}
           >
-
-            {/* ─── WHO I AM ──────────────────────────────── */}
-            <motion.div
-              variants={fadeUp}
-              custom={0}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
-              <p
-                style={{
-                  color: '#475569',
-                  lineHeight: 1.8,
-                  fontSize: '1rem',
-                  margin: 0,
-                }}
-              >
-                I'm{' '}
-                <strong style={{ color: '#0A192F' }}>
-                  Udhaya P
-                </strong>
-                , a Computer Science Engineering student at Sri Sairam
-                Institute of Technology, Chennai. I specialise in building
-                enterprise-grade Java applications using Spring Boot and
-                React — combining robust backend architecture with clean,
-                responsive frontends.
-              </p>
-
-              <p
-                style={{
-                  color: '#475569',
-                  lineHeight: 1.8,
-                  fontSize: '1rem',
-                  marginTop: 22,
-                  marginBottom: 0,
-                }}
-              >
-                I've completed internships at{' '}
-                <strong style={{ color: '#0A192F' }}>
-                  Airports Authority of India
-                </strong>{' '}
-                and{' '}
-                <strong style={{ color: '#0A192F' }}>
-                  Approtech R&D Solutions
-                </strong>
-                , where I worked on full-stack systems and AI-powered tools
-                respectively.
-              </p>
-            </motion.div>
-
-
-            {/* ─── STRENGTHS ─────────────────────────────── */}
-            <motion.div
-              className="card"
-              variants={fadeUp}
-              custom={0.2}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
+            <GraduationCap
+              size={42}
               style={{
-                padding: '24px',
-                marginTop: 8,
+                color: '#60A5FA',
+                filter: 'drop-shadow(0 0 14px rgba(96, 165, 250, 0.45))',
+              }}
+            />
+            <h2
+              className="education-heading"
+              style={{
+                margin: 0,
+                color: '#FFFFFF',
+                fontWeight: 800,
+                letterSpacing: '-0.025em',
               }}
             >
-
-              {/* Strengths Header */}
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 10,
-                  marginBottom: 16,
-                }}
-              >
-                <div
-                  style={{
-                    width: 36,
-                    height: 36,
-                    borderRadius: 10,
-                    background: 'rgba(245,158,11,0.08)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <Zap size={18} color="#F59E0B" />
-                </div>
-
-                <h3
-                  style={{
-                    fontWeight: 700,
-                    color: '#0A192F',
-                    fontSize: '0.95rem',
-                    margin: 0,
-                  }}
-                >
-                  Strengths
-                </h3>
-              </div>
-
-
-              {/* Strengths List */}
-              <ul
-                style={{
-                  listStyle: 'none',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 9,
-                  margin: 0,
-                  padding: 0,
-                }}
-              >
-
-                {/* Existing strengths */}
-                {strengths.map((item, i) => (
-                  <li
-                    key={`strength-${i}`}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'flex-start',
-                      gap: 8,
-                      color: '#475569',
-                      fontSize: '0.875rem',
-                      lineHeight: 1.5,
-                    }}
-                  >
-                    <span
-                      style={{
-                        color: '#F59E0B',
-                        marginTop: 1,
-                        fontWeight: 700,
-                      }}
-                    >
-                      ✓
-                    </span>
-
-                    {item}
-                  </li>
-                ))}
-
-                {/* Additional relevant strengths */}
-                <li
-                  style={{
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    gap: 8,
-                    color: '#475569',
-                    fontSize: '0.875rem',
-                    lineHeight: 1.5,
-                  }}
-                >
-                  <span
-                    style={{
-                      color: '#F59E0B',
-                      marginTop: 1,
-                      fontWeight: 700,
-                    }}
-                  >
-                    ✓
-                  </span>
-
-                  Strong interest in building scalable backend systems with
-                  Spring Boot
-                </li>
-
-                <li
-                  style={{
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    gap: 8,
-                    color: '#475569',
-                    fontSize: '0.875rem',
-                    lineHeight: 1.5,
-                  }}
-                >
-                  <span
-                    style={{
-                      color: '#F59E0B',
-                      marginTop: 1,
-                      fontWeight: 700,
-                    }}
-                  >
-                    ✓
-                  </span>
-
-                  Good understanding of system design and scalable
-                  architecture
-                </li>
-
-                <li
-                  style={{
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    gap: 8,
-                    color: '#475569',
-                    fontSize: '0.875rem',
-                    lineHeight: 1.5,
-                  }}
-                >
-                  <span
-                    style={{
-                      color: '#F59E0B',
-                      marginTop: 1,
-                      fontWeight: 700,
-                    }}
-                  >
-                    ✓
-                  </span>
-
-                  Passionate about continuous learning and clean code
-                </li>
-
-              </ul>
-            </motion.div>
-
+              Education
+            </h2>
           </div>
 
-
-          {/* ═══════════════════════════════════════════════
-              RIGHT SIDE
-              EDUCATION
-          ═══════════════════════════════════════════════ */}
-          <motion.div
-            variants={fadeUp}
-            custom={0.1}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
+          <p
+            className="education-subtitle"
+            style={{
+              margin: '14px auto 0 auto',
+              color: '#A7B2C5',
+              maxWidth: 680,
+              lineHeight: 1.65,
+            }}
           >
+            My academic journey has built a strong foundation in computer science, software engineering, and problem-solving.
+          </p>
+        </motion.div>
 
-            {/* Education Heading */}
-            <motion.h3
-              variants={fadeUp}
-              custom={0.15}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 8,
-                color: '#0A192F',
-                fontWeight: 700,
-                marginBottom: 20,
-                fontSize: '1rem',
-              }}
-            >
-              <GraduationCap size={18} color="#2563EB" />
-              Education
-            </motion.h3>
-
-
-            {/* Education Timeline */}
-            <div className="timeline">
-
-              {/* ─── COLLEGE ─────────────────────────────── */}
-              {education.map((edu, i) => (
-                <motion.div
-                  key={edu.id}
-                  className="timeline-item"
-                  variants={fadeUp}
-                  custom={0.2 + i * 0.1}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                >
-                  <div className="timeline-dot" />
-
-                  <div
-                    className="card"
-                    style={{
-                      padding: '20px 24px',
-                    }}
-                  >
-
-                    {/* College Main Details */}
-                    <div
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'flex-start',
-                        flexWrap: 'wrap',
-                        gap: 8,
-                      }}
-                    >
-                      <div>
-
-                        <p
-                          style={{
-                            fontWeight: 700,
-                            color: '#0A192F',
-                            fontSize: '0.95rem',
-                            margin: 0,
-                          }}
-                        >
-                          {edu.degree}
-                        </p>
-
-                        <p
-                          style={{
-                            color: '#2563EB',
-                            fontSize: '0.875rem',
-                            fontWeight: 600,
-                            marginTop: 5,
-                            marginBottom: 0,
-                          }}
-                        >
-                          {edu.institution}
-                        </p>
-
-                        <p
-                          style={{
-                            color: '#64748b',
-                            fontSize: '0.8rem',
-                            marginTop: 3,
-                            marginBottom: 0,
-                          }}
-                        >
-                          {edu.location}
-                        </p>
-
-                      </div>
-
-
-                      {/* Status + Duration */}
-                      <div
-                        style={{
-                          textAlign: 'right',
-                        }}
-                      >
-                        <span
-                          style={{
-                            display: 'inline-block',
-                            background: 'rgba(37,99,235,0.08)',
-                            color: '#2563EB',
-                            fontSize: '0.75rem',
-                            fontWeight: 600,
-                            padding: '3px 10px',
-                            borderRadius: 100,
-                          }}
-                        >
-                          {edu.status}
-                        </span>
-
-                        <p
-                          style={{
-                            color: '#94a3b8',
-                            fontSize: '0.78rem',
-                            marginTop: 4,
-                            marginBottom: 0,
-                          }}
-                        >
-                          {edu.duration}
-                        </p>
-                      </div>
-
-                    </div>
-
-
-                    {/* College CGPA */}
-                    <div
-                      style={{
-                        marginTop: 12,
-                        paddingTop: 12,
-                        borderTop: '1px solid #E2E8F0',
-                      }}
-                    >
-                      <p
-                        style={{
-                          color: '#64748b',
-                          fontSize: '0.7rem',
-                          fontWeight: 600,
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.05em',
-                          margin: 0,
-                        }}
-                      >
-                        CGPA
-                      </p>
-
-                      <p
-                        style={{
-                          color: '#0A192F',
-                          fontWeight: 800,
-                          fontSize: '1.1rem',
-                          margin: '2px 0 0',
-                        }}
-                      >
-                        {edu.cgpa}
-                      </p>
-                    </div>
-
-                  </div>
-                </motion.div>
-              ))}
-
-
-              {/* ─── 12TH STANDARD ───────────────────────── */}
+        {/* ─── Centered Vertical Education Cards Column ───────────────── */}
+        <div className="education-cards-column">
+          {education.map((item, index) => {
+            const IconComponent = index === 0 ? GraduationCap : School;
+            return (
               <motion.div
-                className="timeline-item"
-                variants={fadeUp}
-                custom={0.35}
+                key={item.id}
+                variants={cardVariant}
+                custom={index}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
+                className="education-card"
               >
-                <div className="timeline-dot" />
+                {/* Left: Institution Logo / Emblem Container */}
+                <div className="education-logo-box">
+                  {item.logo && !logoErrors[item.id] ? (
+                    <img
+                      src={item.logo}
+                      alt={item.alt || `${item.institution} logo`}
+                      className="education-logo-img"
+                      onError={() =>
+                        setLogoErrors((prev) => ({ ...prev, [item.id]: true }))
+                      }
+                    />
+                  ) : (
+                    <IconComponent size={28} color="#60A5FA" />
+                  )}
+                </div>
 
-                <div
-                  className="card"
-                  style={{
-                    padding: '20px 24px',
-                  }}
-                >
+                {/* Right: Academic Information */}
+                <div className="education-content">
+                  {/* Top Row: Institution Name & Status */}
+                  <div className="education-top-row">
+                    <h3 className="education-institution">{item.institution}</h3>
+                    <span className="education-status-badge">{item.status}</span>
+                  </div>
 
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'flex-start',
-                    }}
-                  >
+                  {/* Degree / Qualification */}
+                  <div className="education-degree">{item.degree}</div>
 
-                    <div>
-
-                      <p
-                        style={{
-                          fontWeight: 700,
-                          color: '#0A192F',
-                          fontSize: '0.95rem',
-                          margin: 0,
-                        }}
-                      >
-                        Higher Secondary Education
-                      </p>
-
-                      <p
-                        style={{
-                          color: '#2563EB',
-                          fontSize: '0.875rem',
-                          fontWeight: 600,
-                          marginTop: 5,
-                          marginBottom: 0,
-                        }}
-                      >
-                        De Britto Hr. Sec. School
-                      </p>
-
-                      <p
-                        style={{
-                          color: '#64748b',
-                          fontSize: '0.8rem',
-                          marginTop: 3,
-                          marginBottom: 0,
-                        }}
-                      >
-                        Devakottai, Tamil Nadu
-                      </p>
-
+                  {/* Meta Details Row: Period, Location, and Score */}
+                  <div className="education-meta-row">
+                    <div className="education-meta-group">
+                      <div className="education-meta-item">
+                        <Calendar size={15} color="#60A5FA" />
+                        <span>{item.duration}</span>
+                      </div>
+                      <span className="education-meta-dot">•</span>
+                      <div className="education-meta-item">
+                        <MapPin size={15} color="#60A5FA" />
+                        <span>{item.location}</span>
+                      </div>
                     </div>
 
+                    <div className="education-score-badge">
+                      <span className="education-score-label">
+                        {item.scoreLabel || (item.cgpa ? 'CGPA' : 'Percentage')}:
+                      </span>
+                      <span className="education-score-value">
+                        {item.score || item.cgpa}
+                      </span>
+                    </div>
                   </div>
-
-
-                  {/* 12th Percentage */}
-                  <div
-                    style={{
-                      marginTop: 12,
-                      paddingTop: 12,
-                      borderTop: '1px solid #E2E8F0',
-                    }}
-                  >
-
-                    <p
-                      style={{
-                        color: '#64748b',
-                        fontSize: '0.7rem',
-                        fontWeight: 600,
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.05em',
-                        margin: 0,
-                      }}
-                    >
-                      Percentage
-                    </p>
-
-                    <p
-                      style={{
-                        color: '#0A192F',
-                        fontWeight: 800,
-                        fontSize: '1.1rem',
-                        margin: '2px 0 0',
-                      }}
-                    >
-                      87%
-                    </p>
-
-                  </div>
-
                 </div>
               </motion.div>
-
-            </div>
-
-          </motion.div>
-
+            );
+          })}
         </div>
-
       </div>
+
+      {/* ─── Scoped Education Section Styles ─────────────────────────── */}
+      <style>{`
+        .education-heading {
+          font-size: clamp(2.4rem, 4.2vw, 3.4rem);
+        }
+
+        .education-subtitle {
+          font-size: clamp(1.02rem, 1.3vw, 1.22rem);
+        }
+
+        .education-cards-column {
+          display: flex;
+          flex-direction: column;
+          gap: clamp(26px, 3.8vw, 38px);
+          width: 100%;
+          max-width: 820px;
+          margin-inline: auto;
+          box-sizing: border-box;
+        }
+
+        .education-card {
+          background: rgba(13, 19, 32, 0.85);
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
+          border: 1px solid rgba(96, 165, 250, 0.20);
+          border-radius: 16px;
+          padding: clamp(20px, 3vw, 28px);
+          display: flex;
+          align-items: center;
+          gap: clamp(16px, 2.5vw, 24px);
+          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          box-sizing: border-box;
+        }
+
+        .education-card:hover {
+          border-color: rgba(96, 165, 250, 0.50);
+          box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), 0 0 22px rgba(37, 99, 235, 0.22);
+          transform: translateY(-3px);
+        }
+
+        .education-logo-box {
+          width: 68px;
+          height: 68px;
+          border-radius: 14px;
+          background: #FFFFFF;
+          border: 1.5px solid rgba(96, 165, 250, 0.35);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          padding: 6px;
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+          transition: all 0.3s ease;
+          overflow: hidden;
+          box-sizing: border-box;
+        }
+
+        .education-card:hover .education-logo-box {
+          border-color: rgba(96, 165, 250, 0.65);
+          box-shadow: 0 0 18px rgba(37, 99, 235, 0.35);
+          transform: scale(1.04);
+        }
+
+        .education-logo-img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          display: block;
+        }
+
+        .education-content {
+          flex: 1;
+          min-width: 0;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .education-top-row {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 12px;
+          flex-wrap: wrap;
+        }
+
+        .education-institution {
+          margin: 0;
+          color: #FFFFFF;
+          font-weight: 750;
+          font-size: clamp(1.15rem, 1.6vw, 1.35rem);
+          line-height: 1.35;
+          letter-spacing: -0.015em;
+        }
+
+        .education-status-badge {
+          display: inline-block;
+          background: rgba(37, 99, 235, 0.14);
+          color: #60A5FA;
+          font-size: 0.76rem;
+          font-weight: 650;
+          padding: 3px 12px;
+          border-radius: 100px;
+          border: 1px solid rgba(96, 165, 250, 0.28);
+          white-space: nowrap;
+          letter-spacing: 0.02em;
+        }
+
+        .education-degree {
+          color: #E2E8F0;
+          font-weight: 600;
+          font-size: clamp(0.98rem, 1.2vw, 1.12rem);
+          margin-top: 6px;
+          margin-bottom: 14px;
+          line-height: 1.45;
+        }
+
+        .education-meta-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 12px;
+          padding-top: 14px;
+          border-top: 1px solid rgba(96, 165, 250, 0.12);
+        }
+
+        .education-meta-group {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+
+        .education-meta-item {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          color: #A7B2C5;
+          font-size: clamp(0.82rem, 1vw, 0.88rem);
+        }
+
+        .education-meta-dot {
+          color: rgba(96, 165, 250, 0.4);
+          font-size: 0.9rem;
+          user-select: none;
+        }
+
+        .education-score-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          background: rgba(96, 165, 250, 0.08);
+          border: 1px solid rgba(96, 165, 250, 0.22);
+          padding: 4px 12px;
+          border-radius: 8px;
+        }
+
+        .education-score-label {
+          color: #A7B2C5;
+          font-weight: 600;
+          font-size: 0.82rem;
+          text-transform: uppercase;
+          letter-spacing: 0.04em;
+        }
+
+        .education-score-value {
+          color: #60A5FA;
+          font-weight: 800;
+          font-size: 0.98rem;
+        }
+
+        @media (max-width: 600px) {
+          .education-card {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 16px;
+          }
+
+          .education-logo-box {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            padding: 5px;
+          }
+
+          .education-top-row {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 6px;
+          }
+
+          .education-meta-row {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+          }
+        }
+      `}</style>
     </section>
   );
 }

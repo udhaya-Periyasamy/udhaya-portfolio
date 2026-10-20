@@ -13,6 +13,7 @@ export default function Projects() {
           badge="My Work"
           title="Projects"
           subtitle="End-to-end full-stack applications built with production-grade architecture."
+          center
         />
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 28 }}>
@@ -59,13 +60,13 @@ export default function Projects() {
                   <p style={{ color: '#60a5fa', fontSize: '1.8rem', fontWeight: 900, letterSpacing: '-1px' }}>
                     {project.title}
                   </p>
-                  <p style={{ color: '#64748b', fontSize: '0.75rem', marginTop: 4 }}>{project.subtitle}</p>
+                  <p style={{ color: '#A7B2C5', fontSize: '0.75rem', marginTop: 4 }}>{project.subtitle}</p>
                 </div>
               </div>
 
               {/* Content */}
               <div style={{ padding: '24px 24px 20px' }}>
-                <p style={{ color: '#475569', fontSize: '0.875rem', lineHeight: 1.65, marginBottom: 18 }}>
+                <p style={{ color: '#A7B2C5', fontSize: '0.875rem', lineHeight: 1.65, marginBottom: 18 }}>
                   {project.description}
                 </p>
 
@@ -75,7 +76,7 @@ export default function Projects() {
                     <span key={tag} className="tag">{tag}</span>
                   ))}
                   {project.tags.length > 6 && (
-                    <span className="tag" style={{ background: '#F1F5F9', color: '#64748b', border: '1px solid #E2E8F0' }}>
+                    <span className="tag" style={{ background: 'rgba(37, 99, 235, 0.12)', color: '#60a5fa', border: '1px solid rgba(96, 165, 250, 0.20)' }}>
                       +{project.tags.length - 6}
                     </span>
                   )}

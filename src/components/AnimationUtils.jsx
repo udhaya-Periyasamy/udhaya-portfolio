@@ -59,23 +59,52 @@ export function PageTransition({ children }) {
 }
 
 // ─── Section Header ──────────────────────────────────────────────
-export function SectionHeader({ badge, title, subtitle, center = false }) {
+export function SectionHeader({
+  badge,
+  title,
+  subtitle,
+  eyebrow,
+  description,
+  center = true,
+  style = {},
+}) {
+  const displayBadge = badge || eyebrow;
+  const displaySubtitle = subtitle || description;
+
   return (
     <motion.div
-      style={{ textAlign: center ? 'center' : 'left', marginBottom: 56 }}
+      style={{
+        textAlign: center ? 'center' : 'left',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: center ? 'center' : 'flex-start',
+        justifyContent: 'center',
+        marginBottom: 36,
+        ...style,
+      }}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: '-80px' }}
       variants={fadeUp}
       custom={0}
     >
-      {badge && (
-        <span className="section-badge">{badge}</span>
+      {displayBadge && (
+        <span className="section-badge" style={{ marginBottom: 10 }}>
+          {displayBadge}
+        </span>
       )}
-      <h2 className="section-title">{title}</h2>
-      {subtitle && (
-        <p className="section-subtitle" style={{ margin: center ? '0 auto' : undefined }}>
-          {subtitle}
+      <h2 className="section-title" style={{ textAlign: center ? 'center' : 'left', margin: 0, marginBottom: 10 }}>
+        {title}
+      </h2>
+      {displaySubtitle && (
+        <p
+          className="section-subtitle"
+          style={{
+            margin: center ? '0 auto' : undefined,
+            textAlign: center ? 'center' : 'left',
+          }}
+        >
+          {displaySubtitle}
         </p>
       )}
     </motion.div>

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, MapPin, CheckCircle, Lightbulb, BookOpen, Building2 } from 'lucide-react';
@@ -7,13 +8,14 @@ import { PageTransition, fadeUp } from '../components/AnimationUtils';
 export default function InternshipDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [logoError, setLogoError] = useState(false);
   const intern = internships.find(i => i.id === id);
 
   if (!intern) {
     return (
       <PageTransition>
         <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
-          <h1 style={{ color: '#0A192F', fontWeight: 800, fontSize: '2rem' }}>Internship not found</h1>
+          <h1 style={{ color: '#F8FAFC', fontWeight: 800, fontSize: '2rem' }}>Internship not found</h1>
           <Link to="/" className="btn-primary">Go Home</Link>
         </div>
       </PageTransition>
@@ -35,15 +37,27 @@ export default function InternshipDetails() {
           </button>
 
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 24, flexWrap: 'wrap' }}>
-            {/* Company Icon */}
+            {/* Company Logo */}
             <div style={{
               width: 72, height: 72, borderRadius: 16,
-              background: 'rgba(37,99,235,0.15)',
-              border: '1px solid rgba(37,99,235,0.3)',
+              background: '#FFFFFF',
+              border: '1.5px solid rgba(96,165,250,0.35)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
+              padding: 8,
+              boxShadow: '0 4px 16px rgba(0,0,0,0.3)',
+              overflow: 'hidden',
               flexShrink: 0,
             }}>
-              <Building2 size={32} color="#60a5fa" />
+              {!logoError && intern.logo ? (
+                <img
+                  src={intern.logo}
+                  alt={intern.alt || `${intern.company} logo`}
+                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                  onError={() => setLogoError(true)}
+                />
+              ) : (
+                <Building2 size={32} color="#2563EB" />
+              )}
             </div>
             <div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 10 }}>
@@ -83,27 +97,27 @@ export default function InternshipDetails() {
 
             {/* Overview */}
             <motion.div className="card" style={{ padding: '28px 28px' }} variants={fadeUp} custom={0} initial="hidden" animate="visible">
-              <h2 style={{ fontWeight: 800, color: '#0A192F', fontSize: '1.1rem', marginBottom: 14 }}>Company Overview</h2>
-              <p style={{ color: '#475569', lineHeight: 1.75 }}>{intern.overview}</p>
+              <h2 style={{ fontWeight: 800, color: '#F8FAFC', fontSize: '1.1rem', marginBottom: 14 }}>Company Overview</h2>
+              <p style={{ color: '#A7B2C5', lineHeight: 1.75 }}>{intern.overview}</p>
             </motion.div>
 
             {/* Project */}
             <motion.div className="card" style={{ padding: '28px 28px' }} variants={fadeUp} custom={0.05} initial="hidden" animate="visible">
-              <h2 style={{ fontWeight: 800, color: '#0A192F', fontSize: '1.1rem', marginBottom: 14 }}>Project</h2>
+              <h2 style={{ fontWeight: 800, color: '#F8FAFC', fontSize: '1.1rem', marginBottom: 14 }}>Project</h2>
               <div style={{ background: 'rgba(37,99,235,0.04)', border: '1px solid rgba(37,99,235,0.12)', borderRadius: 12, padding: '16px 18px', marginBottom: 14 }}>
                 <p style={{ color: '#2563EB', fontWeight: 700, fontSize: '0.95rem', marginBottom: 6 }}>{intern.project.title}</p>
-                <p style={{ color: '#475569', fontSize: '0.875rem', lineHeight: 1.7 }}>{intern.project.description}</p>
+                <p style={{ color: '#A7B2C5', fontSize: '0.875rem', lineHeight: 1.7 }}>{intern.project.description}</p>
               </div>
               {intern.problem && (
                 <>
-                  <h3 style={{ fontWeight: 700, color: '#0A192F', fontSize: '0.9rem', marginBottom: 8, marginTop: 16 }}>Problem</h3>
-                  <p style={{ color: '#475569', fontSize: '0.875rem', lineHeight: 1.7 }}>{intern.problem}</p>
+                  <h3 style={{ fontWeight: 700, color: '#F8FAFC', fontSize: '0.9rem', marginBottom: 8, marginTop: 16 }}>Problem</h3>
+                  <p style={{ color: '#A7B2C5', fontSize: '0.875rem', lineHeight: 1.7 }}>{intern.problem}</p>
                 </>
               )}
               {intern.solution && (
                 <>
-                  <h3 style={{ fontWeight: 700, color: '#0A192F', fontSize: '0.9rem', marginBottom: 8, marginTop: 16 }}>Solution</h3>
-                  <p style={{ color: '#475569', fontSize: '0.875rem', lineHeight: 1.7 }}>{intern.solution}</p>
+                  <h3 style={{ fontWeight: 700, color: '#F8FAFC', fontSize: '0.9rem', marginBottom: 8, marginTop: 16 }}>Solution</h3>
+                  <p style={{ color: '#A7B2C5', fontSize: '0.875rem', lineHeight: 1.7 }}>{intern.solution}</p>
                 </>
               )}
             </motion.div>
@@ -111,10 +125,10 @@ export default function InternshipDetails() {
             {/* Responsibilities */}
             {intern.responsibilities && (
               <motion.div className="card" style={{ padding: '28px 28px' }} variants={fadeUp} custom={0.1} initial="hidden" animate="visible">
-                <h2 style={{ fontWeight: 800, color: '#0A192F', fontSize: '1.1rem', marginBottom: 16 }}>Responsibilities</h2>
+                <h2 style={{ fontWeight: 800, color: '#F8FAFC', fontSize: '1.1rem', marginBottom: 16 }}>Responsibilities</h2>
                 <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {intern.responsibilities.map((r, i) => (
-                    <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, color: '#475569', fontSize: '0.875rem', lineHeight: 1.6 }}>
+                    <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, color: '#A7B2C5', fontSize: '0.875rem', lineHeight: 1.6 }}>
                       <CheckCircle size={15} color="#2563EB" style={{ marginTop: 2, flexShrink: 0 }} />
                       {r}
                     </li>
@@ -126,10 +140,10 @@ export default function InternshipDetails() {
             {/* Features (for Approtech) */}
             {intern.features && (
               <motion.div className="card" style={{ padding: '28px 28px' }} variants={fadeUp} custom={0.1} initial="hidden" animate="visible">
-                <h2 style={{ fontWeight: 800, color: '#0A192F', fontSize: '1.1rem', marginBottom: 16 }}>Key Features</h2>
+                <h2 style={{ fontWeight: 800, color: '#F8FAFC', fontSize: '1.1rem', marginBottom: 16 }}>Key Features</h2>
                 <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {intern.features.map((f, i) => (
-                    <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, color: '#475569', fontSize: '0.875rem', lineHeight: 1.6 }}>
+                    <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, color: '#A7B2C5', fontSize: '0.875rem', lineHeight: 1.6 }}>
                       <CheckCircle size={15} color="#2563EB" style={{ marginTop: 2, flexShrink: 0 }} />
                       {f}
                     </li>
@@ -141,10 +155,10 @@ export default function InternshipDetails() {
             {/* Key Contributions */}
             {intern.keyContributions && (
               <motion.div className="card" style={{ padding: '28px 28px' }} variants={fadeUp} custom={0.15} initial="hidden" animate="visible">
-                <h2 style={{ fontWeight: 800, color: '#0A192F', fontSize: '1.1rem', marginBottom: 16 }}>Key Contributions</h2>
+                <h2 style={{ fontWeight: 800, color: '#F8FAFC', fontSize: '1.1rem', marginBottom: 16 }}>Key Contributions</h2>
                 <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {intern.keyContributions.map((kc, i) => (
-                    <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, color: '#475569', fontSize: '0.875rem', lineHeight: 1.6 }}>
+                    <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, color: '#A7B2C5', fontSize: '0.875rem', lineHeight: 1.6 }}>
                       <span style={{ color: '#F59E0B', marginTop: 2, flexShrink: 0 }}>★</span>
                       {kc}
                     </li>
@@ -156,14 +170,14 @@ export default function InternshipDetails() {
             {/* Challenges & Solutions */}
             {intern.challenges && (
               <motion.div className="card" style={{ padding: '28px 28px' }} variants={fadeUp} custom={0.2} initial="hidden" animate="visible">
-                <h2 style={{ fontWeight: 800, color: '#0A192F', fontSize: '1.1rem', marginBottom: 16 }}>Challenges & Solutions</h2>
+                <h2 style={{ fontWeight: 800, color: '#F8FAFC', fontSize: '1.1rem', marginBottom: 16 }}>Challenges & Solutions</h2>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                   {intern.challenges.map((c, i) => (
-                    <div key={i} style={{ background: '#F8FAFC', border: '1px solid #E2E8F0', borderRadius: 10, padding: '16px 18px' }}>
-                      <p style={{ fontWeight: 700, color: '#0A192F', fontSize: '0.875rem', marginBottom: 4 }}>
+                    <div key={i} style={{ background: '#080B12', border: '1px solid rgba(96, 165, 250, 0.20)', borderRadius: 10, padding: '16px 18px' }}>
+                      <p style={{ fontWeight: 700, color: '#F8FAFC', fontSize: '0.875rem', marginBottom: 4 }}>
                         🔴 {c.challenge}
                       </p>
-                      <p style={{ color: '#475569', fontSize: '0.85rem', lineHeight: 1.65 }}>
+                      <p style={{ color: '#A7B2C5', fontSize: '0.85rem', lineHeight: 1.65 }}>
                         ✅ {c.solution}
                       </p>
                     </div>
@@ -175,13 +189,13 @@ export default function InternshipDetails() {
             {/* Learning Outcomes */}
             {intern.learningOutcomes && (
               <motion.div className="card" style={{ padding: '28px 28px' }} variants={fadeUp} custom={0.25} initial="hidden" animate="visible">
-                <h2 style={{ fontWeight: 800, color: '#0A192F', fontSize: '1.1rem', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+                <h2 style={{ fontWeight: 800, color: '#F8FAFC', fontSize: '1.1rem', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
                   <BookOpen size={18} color="#2563EB" />
                   Learning Outcomes
                 </h2>
                 <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {intern.learningOutcomes.map((lo, i) => (
-                    <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, color: '#475569', fontSize: '0.875rem', lineHeight: 1.6 }}>
+                    <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, color: '#A7B2C5', fontSize: '0.875rem', lineHeight: 1.6 }}>
                       <span style={{ color: '#10B981', marginTop: 2, flexShrink: 0 }}>▸</span>
                       {lo}
                     </li>
@@ -192,9 +206,9 @@ export default function InternshipDetails() {
 
             {/* Outcome (Approtech) */}
             {intern.outcome && (
-              <motion.div className="card" style={{ padding: '28px 28px', background: 'rgba(37,99,235,0.02)' }} variants={fadeUp} custom={0.25} initial="hidden" animate="visible">
-                <h2 style={{ fontWeight: 800, color: '#0A192F', fontSize: '1.1rem', marginBottom: 14 }}>Outcome</h2>
-                <p style={{ color: '#475569', lineHeight: 1.75 }}>{intern.outcome}</p>
+              <motion.div className="card" style={{ padding: '28px 28px', background: 'rgba(37,99,235,0.06)' }} variants={fadeUp} custom={0.25} initial="hidden" animate="visible">
+                <h2 style={{ fontWeight: 800, color: '#F8FAFC', fontSize: '1.1rem', marginBottom: 14 }}>Outcome</h2>
+                <p style={{ color: '#A7B2C5', lineHeight: 1.75 }}>{intern.outcome}</p>
               </motion.div>
             )}
 
@@ -205,7 +219,7 @@ export default function InternshipDetails() {
 
             {/* Tech Stack */}
             <motion.div className="card" style={{ padding: '24px' }} variants={fadeUp} custom={0} initial="hidden" animate="visible">
-              <h3 style={{ fontWeight: 700, color: '#0A192F', fontSize: '0.9rem', marginBottom: 14 }}>Tech Stack</h3>
+              <h3 style={{ fontWeight: 700, color: '#F8FAFC', fontSize: '0.9rem', marginBottom: 14 }}>Tech Stack</h3>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                 {intern.techStack.map(tech => (
                   <span key={tech} className="tag">{tech}</span>
@@ -215,7 +229,7 @@ export default function InternshipDetails() {
 
             {/* Quick Info */}
             <motion.div className="card" style={{ padding: '24px' }} variants={fadeUp} custom={0.05} initial="hidden" animate="visible">
-              <h3 style={{ fontWeight: 700, color: '#0A192F', fontSize: '0.9rem', marginBottom: 14 }}>Details</h3>
+              <h3 style={{ fontWeight: 700, color: '#F8FAFC', fontSize: '0.9rem', marginBottom: 14 }}>Details</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 {[
                   { label: 'Company', value: intern.company },
@@ -224,8 +238,8 @@ export default function InternshipDetails() {
                   { label: 'Location', value: intern.location },
                 ].map(d => (
                   <div key={d.label}>
-                    <p style={{ fontSize: '0.7rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 2 }}>{d.label}</p>
-                    <p style={{ fontSize: '0.875rem', fontWeight: 600, color: '#1E293B' }}>{d.value}</p>
+                    <p style={{ fontSize: '0.7rem', fontWeight: 700, color: '#A7B2C5', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 2 }}>{d.label}</p>
+                    <p style={{ fontSize: '0.875rem', fontWeight: 600, color: '#F8FAFC' }}>{d.value}</p>
                   </div>
                 ))}
               </div>

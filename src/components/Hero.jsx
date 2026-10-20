@@ -1,632 +1,444 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { TypeAnimation } from 'react-type-animation';
-import { Eye, X } from 'lucide-react';
-import { FaGithub, FaLinkedin, FaCode } from 'react-icons/fa6';
-
+import { FileText } from 'lucide-react';
+import { FaGithub, FaLinkedin } from 'react-icons/fa6';
+import { SiLeetcode } from 'react-icons/si';
 import { personalInfo, typingRoles } from '../data/portfolioData';
-import { fadeUp, fadeRight } from './AnimationUtils';
-
-
-// ============================================================
-// SOCIAL LINKS
-// ============================================================
-
-const socialLinks = [
-  {
-    icon: FaGithub,
-    label: 'GitHub',
-    href: 'https://github.com/udhaya-Periyasamy',
-  },
-  {
-    icon: FaLinkedin,
-    label: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/udhaya-periyasamy',
-  },
-  {
-    icon: FaCode,
-    label: 'LeetCode',
-    href: 'https://leetcode.com/u/udhaya__16/',
-  },
-];
-
-
-// ============================================================
-// TYPING ANIMATION
-// ============================================================
-
-const typingSequence = typingRoles.flatMap((role) => [
-  role,
-  2000,
-]);
-
-
-// ============================================================
-// HERO
-// ============================================================
 
 export default function Hero() {
-  const [showResume, setShowResume] = useState(false);
+  const titles = typingRoles && typingRoles.length > 0 ? typingRoles : [
+    'Java Full Stack Developer',
+    'Java Frontend Developer',
+    'Spring Boot Developer',
+  ];
+
+  const [currentTitleIndex, setCurrentTitleIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTitleIndex((prev) => (prev + 1) % titles.length);
+    }, 2800);
+    return () => clearInterval(timer);
+  }, [titles.length]);
 
   return (
     <section
-      id="hero"
-      className="hero-section"
+      id="about"
       style={{
+        minHeight: '100vh',
+        scrollMarginTop: 68,
         position: 'relative',
         overflow: 'hidden',
+        background: '#080B12',
+        color: '#F8FAFC',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingTop: 'calc(68px + clamp(16px, 2.5vh, 32px))',
+        paddingBottom: 'clamp(16px, 2.5vh, 32px)',
+        paddingLeft: 'clamp(16px, 3.5vw, 40px)',
+        paddingRight: 'clamp(16px, 3.5vw, 40px)',
+        boxSizing: 'border-box',
       }}
     >
-
-      {/* ======================================================
-          BACKGROUND
-      ====================================================== */}
-
-      {/* Grid background
-          IMPORTANT:
-          pointerEvents: none prevents this layer from
-          blocking buttons and links.
-      */}
+      {/* ─── Subtle Background Grid ────────────────────────────── */}
       <div
-        className="hero-bg-grid"
         style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `
+            linear-gradient(rgba(96, 165, 250, 0.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(96, 165, 250, 0.04) 1px, transparent 1px)
+          `,
+          backgroundSize: '48px 48px',
           pointerEvents: 'none',
           zIndex: 0,
         }}
       />
 
-      {/* Left glow */}
+      {/* ─── Ambient Blue Glow (Restrained) ───────────────────── */}
       <div
-        className="hero-bg-glow blob"
         style={{
+          position: 'absolute',
+          width: '520px',
+          height: '520px',
           top: '-10%',
-          left: '-10%',
-          animationDelay: '0s',
+          left: '-5%',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(37, 99, 235, 0.14) 0%, transparent 70%)',
+          filter: 'blur(90px)',
           pointerEvents: 'none',
           zIndex: 0,
         }}
       />
-
-      {/* Right glow */}
       <div
-        className="hero-bg-glow blob"
         style={{
+          position: 'absolute',
+          width: '480px',
+          height: '480px',
           bottom: '-10%',
-          right: '-10%',
-          animationDelay: '3s',
-          opacity: 0.08,
+          right: '-5%',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(96, 165, 250, 0.10) 0%, transparent 70%)',
+          filter: 'blur(100px)',
           pointerEvents: 'none',
           zIndex: 0,
         }}
       />
 
-
-      {/* ======================================================
-          MAIN CONTENT
-          IMPORTANT:
-          position + zIndex makes sure the content is above
-          background layers.
-      ====================================================== */}
-
-      <div
-        className="container"
-        style={{
-          paddingTop: 120,
-          paddingBottom: 100,
-          position: 'relative',
-          zIndex: 10,
-        }}
-      >
-
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns:
-              'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: 64,
-            alignItems: 'center',
-            position: 'relative',
-            zIndex: 10,
-          }}
-        >
-
-
-          {/* ==================================================
-              LEFT CONTENT
-          ================================================== */}
-
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 16,
-              position: 'relative',
-              zIndex: 20,
-            }}
-          >
-
-            {/* ------------------------------------------------
-                NAME
-            ------------------------------------------------ */}
-
-            <motion.h1
-              className="hero-name"
-              variants={fadeUp}
-              custom={0.1}
-              initial="hidden"
-              animate="visible"
-            >
-              UDHAYA{' '}
-              <span className="hero-name-accent">
-                P
-              </span>
-            </motion.h1>
-
-
-            {/* ------------------------------------------------
-                JOB TITLE
-            ------------------------------------------------ */}
-
-            <motion.p
-              variants={fadeUp}
-              custom={0.2}
-              initial="hidden"
-              animate="visible"
-              style={{
-                fontSize:
-                  'clamp(1.1rem, 2.5vw, 1.35rem)',
-                color: '#60a5fa',
-                fontWeight: 600,
-                letterSpacing: '0.02em',
-                marginTop: 4,
-              }}
-            >
-              Java Full Stack Developer
-            </motion.p>
-
-
-            {/* ------------------------------------------------
-                TYPING TEXT
-            ------------------------------------------------ */}
-
-            <motion.div
-              variants={fadeUp}
-              custom={0.25}
-              initial="hidden"
-              animate="visible"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 8,
-                marginTop: -4,
-                marginBottom: 8,
-              }}
-            >
-
-              <span
-                style={{
-                  color: '#64748b',
-                  fontSize: '0.95rem',
-                  fontFamily: 'monospace',
-                }}
-              >
-                &gt;
-              </span>
-
-              <span
-                className="hero-typing"
-                style={{
-                  fontSize: '1rem',
-                  color: '#94a3b8',
-                  fontWeight: 500,
-                }}
-              >
-                <TypeAnimation
-                  sequence={typingSequence}
-                  wrapper="span"
-                  speed={50}
-                  repeat={Infinity}
-                />
-              </span>
-
-            </motion.div>
-
-
-            {/* ------------------------------------------------
-                DESCRIPTION
-            ------------------------------------------------ */}
-
-            <motion.p
-              className="hero-desc"
-              variants={fadeUp}
-              custom={0.3}
-              initial="hidden"
-              animate="visible"
-              style={{
-                fontSize: '1.05rem',
-                color: '#94a3b8',
-                lineHeight: 1.8,
-                maxWidth: '540px',
-                marginTop: 4,
-                marginBottom: 20,
-              }}
-            >
-              {personalInfo.bio}
-            </motion.p>
-
-
-            {/* =================================================
-                VIEW RESUME
-                ONLY ONE BUTTON
-            ================================================= */}
-
-            <motion.div
-              variants={fadeUp}
-              custom={0.4}
-              initial="hidden"
-              animate="visible"
-              style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: 16,
-                marginBottom: 8,
-                position: 'relative',
-                zIndex: 30,
-              }}
-            >
-
-              <motion.button
-                type="button"
-                className="btn-outline"
-                onClick={() => {
-                  setShowResume(true);
-                }}
-                aria-label="View Udhaya P resume"
-                style={{
-                  background:
-                    'rgba(255, 255, 255, 0.03)',
-                  border:
-                    '1.5px solid rgba(255, 255, 255, 0.15)',
-                  color: '#e2e8f0',
-                  cursor: 'pointer',
-                  position: 'relative',
-                  zIndex: 30,
-                  pointerEvents: 'auto',
-                }}
-                whileHover={{
-                  y: -3,
-                  scale: 1.03,
-                  borderColor: '#2563EB',
-                  color: '#60a5fa',
-                  background:
-                    'rgba(37, 99, 235, 0.08)',
-                  boxShadow:
-                    '0 8px 30px rgba(37, 99, 235, 0.20)',
-                }}
-                whileTap={{
-                  scale: 0.96,
-                }}
-                transition={{
-                  type: 'spring',
-                  stiffness: 400,
-                  damping: 12,
-                }}
-              >
-                <Eye size={18} />
-                View Resume
-              </motion.button>
-
-            </motion.div>
-
-
-            {/* =================================================
-                SOCIAL LINKS
-            ================================================= */}
-
-            <motion.div
-              variants={fadeUp}
-              custom={0.45}
-              initial="hidden"
-              animate="visible"
-              style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: 12,
-                position: 'relative',
-                zIndex: 30,
-              }}
-            >
-
-              {socialLinks.map(
-                ({ icon: Icon, label, href }) => (
-
-                  <motion.a
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-outline"
-                    aria-label={`Open ${label} profile`}
-                    title={`Open ${label}`}
-                    style={{
-                      background:
-                        'rgba(255, 255, 255, 0.03)',
-                      border:
-                        '1.5px solid rgba(255, 255, 255, 0.15)',
-                      color: '#e2e8f0',
-                      textDecoration: 'none',
-                      cursor: 'pointer',
-                      position: 'relative',
-                      zIndex: 30,
-                      pointerEvents: 'auto',
-
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: 8,
-                    }}
-                    whileHover={{
-                      y: -3,
-                      scale: 1.04,
-                      borderColor: '#2563EB',
-                      color: '#60a5fa',
-                      background:
-                        'rgba(37, 99, 235, 0.08)',
-                      boxShadow:
-                        '0 8px 30px rgba(37, 99, 235, 0.20)',
-                    }}
-                    whileTap={{
-                      scale: 0.96,
-                    }}
-                    transition={{
-                      type: 'spring',
-                      stiffness: 400,
-                      damping: 12,
-                    }}
-                  >
-
-                    <Icon size={18} />
-
-                    <span>
-                      {label}
-                    </span>
-
-                  </motion.a>
-
-                )
-              )}
-
-            </motion.div>
-
-          </div>
-
-
-          {/* ==================================================
-              RIGHT — PROFILE PHOTO
-          ================================================== */}
-
+      {/* ─── Centered Two-Column Hero Content ──────────────────── */}
+      <div className="hero-centered-container">
+        <div className="hero-grid">
+          {/* ══════════════════════════════════════════════════════
+              LEFT COLUMN — Circular Profile Photo
+          ═══════════════════════════════════════════════════════ */}
           <motion.div
-            variants={fadeRight}
-            custom={0.3}
-            initial="hidden"
-            animate="visible"
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              position: 'relative',
-              zIndex: 10,
-            }}
+            className="hero-photo-col"
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
           >
+            <div className="hero-profile-frame">
+              <img
+                src={personalInfo.profileImage || '/assets/profile/profile.jpeg'}
+                alt="Udhaya P"
+                loading="eager"
+              />
+            </div>
+          </motion.div>
 
+          {/* ══════════════════════════════════════════════════════
+              RIGHT COLUMN — Intro, Titles, Bio & Actions
+          ═══════════════════════════════════════════════════════ */}
+          <motion.div
+            className="hero-text-col"
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+          >
+            {/* Status Pill / Availability Badge */}
             <div
               style={{
-                position: 'relative',
-                zIndex: 10,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 8,
+                padding: '7px 16px',
+                borderRadius: 100,
+                background: 'rgba(37, 99, 235, 0.12)',
+                border: '1px solid rgba(96, 165, 250, 0.28)',
+                marginBottom: 16,
+                width: 'fit-content',
+                userSelect: 'none',
               }}
             >
-
-              {/* Soft blue glow */}
               <div
                 style={{
-                  position: 'absolute',
-                  inset: -20,
+                  width: 8,
+                  height: 8,
                   borderRadius: '50%',
-                  background:
-                    'radial-gradient(circle, rgba(37,99,235,0.2) 0%, transparent 70%)',
-                  filter: 'blur(12px)',
-                  pointerEvents: 'none',
-                  zIndex: 0,
+                  background: '#60A5FA',
+                  boxShadow: '0 0 8px #60A5FA',
                 }}
               />
-
-              {/* Profile ring */}
-              <div
-                className="profile-ring"
+              <span
                 style={{
-                  boxShadow:
-                    '0 20px 40px rgba(10, 25, 47, 0.35)',
-                  position: 'relative',
-                  zIndex: 1,
+                  fontSize: '0.82rem',
+                  fontWeight: 600,
+                  color: '#60A5FA',
+                  letterSpacing: '0.06em',
+                  textTransform: 'uppercase',
                 }}
               >
-
-                <div className="profile-img-wrapper">
-
-                  <img
-                    src={personalInfo.profileImage}
-                    alt="Udhaya P"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      transition: 'transform 0.35s ease',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'scale(1.02)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'scale(1)';
-                    }}
-                  />
-
-                </div>
-
-              </div>
-
+                Available for Opportunities
+              </span>
             </div>
 
-          </motion.div>
-
-        </div>
-
-      </div>
-
-
-      {/* ======================================================
-          RESUME MODAL
-      ====================================================== */}
-
-      <AnimatePresence>
-
-        {showResume && (
-
-          <motion.div
-            initial={{
-              opacity: 0,
-            }}
-            animate={{
-              opacity: 1,
-            }}
-            exit={{
-              opacity: 0,
-            }}
-            onClick={() => {
-              setShowResume(false);
-            }}
-            style={{
-              position: 'fixed',
-              inset: 0,
-              zIndex: 99999,
-              background:
-                'rgba(2, 6, 23, 0.88)',
-              backdropFilter: 'blur(8px)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: 20,
-            }}
-          >
-
-            <motion.div
-              initial={{
-                opacity: 0,
-                scale: 0.95,
-                y: 20,
-              }}
-              animate={{
-                opacity: 1,
-                scale: 1,
-                y: 0,
-              }}
-              exit={{
-                opacity: 0,
-                scale: 0.95,
-                y: 20,
-              }}
-              transition={{
-                duration: 0.25,
-                ease: 'easeOut',
-              }}
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
+            {/* Name Heading (Target 64-76px on desktop, single line) */}
+            <h1
+              className="hero-name-heading"
               style={{
-                width: 'min(1000px, 95vw)',
-                height: '90vh',
-                background: '#ffffff',
-                borderRadius: 16,
-                overflow: 'hidden',
-                boxShadow:
-                  '0 25px 80px rgba(0, 0, 0, 0.5)',
-                display: 'flex',
-                flexDirection: 'column',
+                margin: 0,
+                fontWeight: 900,
+                letterSpacing: '-0.035em',
+                lineHeight: 1.08,
+                color: '#F8FAFC',
               }}
             >
+              Udhaya <span style={{ color: '#60A5FA' }}>P</span>
+            </h1>
 
-              {/* Modal header */}
-
-              <div
+            {/* Rotating Professional Title (Target 25-30px on desktop) */}
+            <div
+              style={{
+                minHeight: 48,
+                display: 'flex',
+                alignItems: 'center',
+                marginTop: 12,
+                marginBottom: 20,
+                overflow: 'hidden',
+              }}
+            >
+              <span
                 style={{
-                  height: 56,
-                  minHeight: 56,
-                  background: '#0A192F',
-                  color: '#ffffff',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: '0 18px',
+                  color: '#2563EB',
+                  marginRight: 12,
+                  fontSize: '1.6rem',
+                  fontWeight: 800,
+                  userSelect: 'none',
                 }}
               >
-
-                <span
+                ›
+              </span>
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={titles[currentTitleIndex]}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.32, ease: 'easeOut' }}
+                  className="hero-title-text"
                   style={{
-                    fontSize: '0.95rem',
-                    fontWeight: 600,
+                    fontWeight: 700,
+                    color: '#60A5FA',
+                    letterSpacing: '-0.015em',
+                    lineHeight: 1.25,
                   }}
                 >
-                  Udhaya P — Resume
-                </span>
+                  {titles[currentTitleIndex]}
+                </motion.span>
+              </AnimatePresence>
+            </div>
 
+            {/* Introductory Paragraph (Target 17-19px on desktop with bold tech accents) */}
+            <p
+              className="hero-paragraph"
+              style={{
+                color: '#CBD5E1',
+                lineHeight: 1.72,
+                maxWidth: 720,
+                margin: '0 0 30px 0',
+              }}
+            >
+              Passionate Computer Science Engineering student with hands-on experience in{' '}
+              <strong style={{ color: '#F8FAFC', fontWeight: 700 }}>Java Full Stack Development</strong>,{' '}
+              <strong style={{ color: '#60A5FA', fontWeight: 700 }}>Spring Boot</strong>,{' '}
+              <strong style={{ color: '#F8FAFC', fontWeight: 700 }}>MySQL</strong>, REST APIs,{' '}
+              <strong style={{ color: '#60A5FA', fontWeight: 700 }}>React</strong>, and enterprise applications.
+              Dedicated to building scalable software with clean architecture and robust engineering.
+            </p>
 
-                <button
-                  type="button"
-                  onClick={() => {
-                    setShowResume(false);
-                  }}
-                  aria-label="Close resume"
-                  style={{
-                    width: 36,
-                    height: 36,
-                    borderRadius: 8,
-                    border:
-                      '1px solid rgba(255,255,255,0.15)',
-                    background:
-                      'rgba(255,255,255,0.08)',
-                    color: '#ffffff',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                  }}
-                >
-                  <X size={20} />
-                </button>
+            {/* Action Row: Social Media Icons + Blue Resume Button */}
+            <div
+              className="hero-actions-row"
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                gap: 12,
+              }}
+            >
+              <a
+                href={personalInfo.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub Profile"
+                title="GitHub Profile"
+                className="hero-social-icon-btn"
+              >
+                <FaGithub size={22} />
+              </a>
 
-              </div>
+              <a
+                href={personalInfo.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn Profile"
+                title="LinkedIn Profile"
+                className="hero-social-icon-btn"
+              >
+                <FaLinkedin size={22} />
+              </a>
 
+              <a
+                href={personalInfo.leetcode}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LeetCode Profile"
+                title="LeetCode Profile"
+                className="hero-social-icon-btn"
+              >
+                <SiLeetcode size={21} />
+              </a>
 
-              {/* PDF */}
-
-              <iframe
-                src={personalInfo.resumeUrl}
-                title="Udhaya P Resume"
+              <a
+                href={personalInfo.resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Resume"
+                title="View Resume in New Tab"
+                className="hero-btn-primary hero-resume-btn"
                 style={{
-                  width: '100%',
-                  flex: 1,
-                  border: 'none',
-                  background: '#f1f5f9',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 8,
+                  height: 48,
+                  padding: '0 22px',
+                  borderRadius: 12,
+                  fontSize: '0.98rem',
+                  fontWeight: 650,
+                  textDecoration: 'none',
+                  color: '#FFFFFF',
+                  background: 'linear-gradient(135deg, #2563EB, #1D4ED8)',
+                  boxShadow: '0 4px 18px rgba(37, 99, 235, 0.40)',
+                  border: '1px solid rgba(96, 165, 250, 0.35)',
+                  transition: 'all 0.25s ease',
+                  fontFamily: 'inherit',
+                  whiteSpace: 'nowrap',
                 }}
-              />
-
-            </motion.div>
-
+              >
+                <FileText size={18} />
+                <span>Resume</span>
+              </a>
+            </div>
           </motion.div>
+        </div>
+      </div>
 
-        )}
+      {/* ─── Responsive Grid & Centering Styles ─────────────────── */}
+      <style>{`
+        .hero-centered-container {
+          width: 100%;
+          max-width: 1200px;
+          margin-inline: auto;
+          position: relative;
+          z-index: 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          box-sizing: border-box;
+        }
 
-      </AnimatePresence>
+        .hero-grid {
+          display: grid;
+          grid-template-columns: 380px minmax(0, 1fr);
+          align-items: center;
+          justify-content: center;
+          gap: clamp(36px, 4.5vw, 64px);
+          width: 100%;
+          max-width: 1140px;
+          margin-inline: auto;
+        }
 
+        .hero-photo-col {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .hero-text-col {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: flex-start;
+        }
+
+        .hero-name-heading {
+          font-size: clamp(3.2rem, 5vw, 4.6rem);
+          white-space: nowrap;
+        }
+
+        .hero-title-text {
+          font-size: clamp(1.45rem, 2.1vw, 1.85rem);
+        }
+
+        .hero-paragraph {
+          font-size: clamp(1.06rem, 1.25vw, 1.18rem);
+        }
+
+        .hero-btn-primary:hover {
+          background: linear-gradient(135deg, #1D4ED8, #1E40AF) !important;
+          box-shadow: 0 6px 28px rgba(37, 99, 235, 0.55) !important;
+          transform: translateY(-2px);
+        }
+
+        @media (max-width: 1280px) {
+          .hero-grid {
+            grid-template-columns: 340px minmax(0, 1fr);
+            gap: 40px;
+            max-width: 1040px;
+          }
+          .hero-profile-frame {
+            width: 340px;
+            height: 340px;
+          }
+        }
+
+        @media (max-width: 1024px) {
+          .hero-grid {
+            grid-template-columns: 300px minmax(0, 1fr);
+            gap: 32px;
+            max-width: 920px;
+          }
+          .hero-profile-frame {
+            width: 300px;
+            height: 300px;
+          }
+        }
+
+        @media (max-width: 860px) {
+          .hero-grid {
+            grid-template-columns: 1fr;
+            gap: 28px;
+            text-align: center;
+            max-width: 580px;
+          }
+
+          .hero-text-col {
+            align-items: center;
+          }
+
+          .hero-name-heading {
+            white-space: normal;
+            font-size: 2.8rem;
+          }
+
+          .hero-title-text {
+            font-size: 1.35rem;
+          }
+
+          .hero-paragraph {
+            font-size: 1rem;
+            text-align: center;
+            margin-inline: auto;
+          }
+
+          .hero-profile-frame {
+            width: 260px;
+            height: 260px;
+            margin: 0 auto;
+          }
+
+          .hero-actions-row {
+            justify-content: center;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .hero-profile-frame {
+            width: 220px;
+            height: 220px;
+          }
+          .hero-name-heading {
+            font-size: 2.25rem;
+          }
+          .hero-actions-row {
+            justify-content: center;
+            gap: 10px;
+          }
+        }
+      `}</style>
     </section>
   );
 }

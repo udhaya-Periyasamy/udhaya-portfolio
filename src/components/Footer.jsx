@@ -30,20 +30,20 @@ export default function Footer() {
           <div>
             <button onClick={scrollToTop} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
               <div style={{
-                width: 40, height: 40, borderRadius: 10,
-                background: 'rgba(37,99,235,0.2)',
-                border: '1.5px solid rgba(37,99,235,0.35)',
+                width: 38, height: 38, borderRadius: 10,
+                background: 'rgba(37,99,235,0.18)',
+                border: '1.5px solid rgba(96,165,250,0.30)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontWeight: 900, fontSize: '0.9rem', color: '#60a5fa',
+                fontWeight: 800, fontSize: '0.9rem', color: '#60A5FA',
               }}>
                 UP
               </div>
-              <span style={{ color: '#e2e8f0', fontWeight: 700, fontSize: '1rem' }}>
-                Udhaya<span style={{ color: '#60a5fa' }}>.dev</span>
+              <span style={{ color: '#F8FAFC', fontWeight: 800, fontSize: '1.05rem' }}>
+                Udhaya <span style={{ color: '#60A5FA' }}>P</span>
               </span>
             </button>
 
-            <p style={{ color: '#475569', fontSize: '0.875rem', lineHeight: 1.7, maxWidth: 260 }}>
+            <p style={{ color: '#A7B2C5', fontSize: '0.875rem', lineHeight: 1.7, maxWidth: 260 }}>
               "{personalInfo.quote}"
             </p>
 
@@ -63,15 +63,15 @@ export default function Footer() {
                   style={{
                     width: 36, height: 36,
                     borderRadius: 9,
-                    background: 'rgba(255,255,255,0.06)',
-                    border: '1px solid rgba(255,255,255,0.08)',
+                    background: 'rgba(13, 19, 32, 0.8)',
+                    border: '1px solid rgba(96, 165, 250, 0.20)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: '#64748b',
+                    color: '#A7B2C5',
                     transition: 'all 0.2s ease',
                     textDecoration: 'none',
                   }}
-                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(37,99,235,0.2)'; e.currentTarget.style.color = '#60a5fa'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = '#64748b'; e.currentTarget.style.transform = 'translateY(0)'; }}
+                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(37,99,235,0.2)'; e.currentTarget.style.color = '#60A5FA'; e.currentTarget.style.borderColor = '#60A5FA'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = 'rgba(13, 19, 32, 0.8)'; e.currentTarget.style.color = '#A7B2C5'; e.currentTarget.style.borderColor = 'rgba(96, 165, 250, 0.20)'; e.currentTarget.style.transform = 'translateY(0)'; }}
                 >
                   <Icon size={16} />
                 </a>
@@ -81,7 +81,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 style={{ color: '#e2e8f0', fontWeight: 700, fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 16 }}>
+            <h4 style={{ color: '#F8FAFC', fontWeight: 700, fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 16 }}>
               Quick Links
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -92,9 +92,9 @@ export default function Footer() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#64748b', fontSize: '0.875rem', textDecoration: 'none', transition: 'color 0.2s', width: 'fit-content' }}
-                    onMouseEnter={e => e.currentTarget.style.color = '#94a3b8'}
-                    onMouseLeave={e => e.currentTarget.style.color = '#64748b'}
+                    style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#A7B2C5', fontSize: '0.875rem', textDecoration: 'none', transition: 'color 0.2s', width: 'fit-content' }}
+                    onMouseEnter={e => e.currentTarget.style.color = '#60A5FA'}
+                    onMouseLeave={e => e.currentTarget.style.color = '#A7B2C5'}
                   >
                     <link.icon size={13} />
                     {link.label}
@@ -104,9 +104,9 @@ export default function Footer() {
                   <button
                     key={link.label}
                     onClick={() => handleFooterLink(link)}
-                    style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#64748b', fontSize: '0.875rem', textDecoration: 'none', transition: 'color 0.2s', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', padding: 0 }}
-                    onMouseEnter={e => e.currentTarget.style.color = '#94a3b8'}
-                    onMouseLeave={e => e.currentTarget.style.color = '#64748b'}
+                    style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#A7B2C5', fontSize: '0.875rem', textDecoration: 'none', transition: 'color 0.2s', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', padding: 0 }}
+                    onMouseEnter={e => e.currentTarget.style.color = '#60A5FA'}
+                    onMouseLeave={e => e.currentTarget.style.color = '#A7B2C5'}
                   >
                     <link.icon size={13} />
                     {link.label}
@@ -115,10 +115,10 @@ export default function Footer() {
                   <a
                     key={link.label}
                     href={link.href}
-                    download
-                    style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#64748b', fontSize: '0.875rem', textDecoration: 'none', transition: 'color 0.2s', width: 'fit-content' }}
-                    onMouseEnter={e => e.currentTarget.style.color = '#94a3b8'}
-                    onMouseLeave={e => e.currentTarget.style.color = '#64748b'}
+                    download="Udhaya_P_Resume.pdf"
+                    style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#A7B2C5', fontSize: '0.875rem', textDecoration: 'none', transition: 'color 0.2s', width: 'fit-content' }}
+                    onMouseEnter={e => e.currentTarget.style.color = '#60A5FA'}
+                    onMouseLeave={e => e.currentTarget.style.color = '#A7B2C5'}
                   >
                     <link.icon size={13} />
                     {link.label}
@@ -130,25 +130,25 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h4 style={{ color: '#e2e8f0', fontWeight: 700, fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 16 }}>
+            <h4 style={{ color: '#F8FAFC', fontWeight: 700, fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 16 }}>
               Contact
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <a href={`mailto:${personalInfo.email}`} style={{ color: '#64748b', fontSize: '0.875rem', textDecoration: 'none' }}
-                onMouseEnter={e => e.currentTarget.style.color = '#94a3b8'}
-                onMouseLeave={e => e.currentTarget.style.color = '#64748b'}
+              <a href={`mailto:${personalInfo.email}`} style={{ color: '#A7B2C5', fontSize: '0.875rem', textDecoration: 'none', transition: 'color 0.2s' }}
+                onMouseEnter={e => e.currentTarget.style.color = '#60A5FA'}
+                onMouseLeave={e => e.currentTarget.style.color = '#A7B2C5'}
               >
                 {personalInfo.email}
               </a>
-              <span style={{ color: '#64748b', fontSize: '0.875rem' }}>{personalInfo.phone}</span>
-              <span style={{ color: '#64748b', fontSize: '0.875rem' }}>{personalInfo.location}</span>
+              <span style={{ color: '#A7B2C5', fontSize: '0.875rem' }}>{personalInfo.phone}</span>
+              <span style={{ color: '#A7B2C5', fontSize: '0.875rem' }}>{personalInfo.location}</span>
             </div>
           </div>
         </div>
 
         {/* Bottom bar */}
         <div style={{
-          borderTop: '1px solid rgba(255,255,255,0.06)',
+          borderTop: '1px solid rgba(96, 165, 250, 0.15)',
           paddingTop: 24,
           display: 'flex',
           justifyContent: 'space-between',
@@ -156,12 +156,9 @@ export default function Footer() {
           flexWrap: 'wrap',
           gap: 12,
         }}>
-          <p style={{ color: '#475569', fontSize: '0.8rem' }}>
-            © 2026 Udhaya P. All Rights Reserved.
+          <p style={{ color: '#A7B2C5', fontSize: '0.8rem' }}>
+            © {new Date().getFullYear()} Udhaya P. All Rights Reserved.
           </p>
-          {/* <p style={{ color: '#334155', fontSize: '0.78rem' }}>
-            Built with React + Vite + Tailwind CSS
-          </p> */}
         </div>
       </div>
     </footer>

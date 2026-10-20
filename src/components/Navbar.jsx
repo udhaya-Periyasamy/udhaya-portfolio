@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Download, ExternalLink } from 'lucide-react';
-import { personalInfo } from '../data/portfolioData';
+import { motion } from 'framer-motion';
 
 const navLinks = [
-  { label: 'Home', href: '#hero' },
   { label: 'About', href: '#about' },
+  { label: 'Education', href: '#education' },
   { label: 'Skills', href: '#skills' },
   { label: 'Internships', href: '#internships' },
   { label: 'Projects', href: '#projects' },
@@ -16,8 +14,7 @@ const navLinks = [
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [active, setActive] = useState('hero');
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [active, setActive] = useState('about');
   const location = useLocation();
 
   const isHome = location.pathname === '/';
@@ -26,11 +23,16 @@ export default function Navbar() {
     const onScroll = () => {
       setScrolled(window.scrollY > 20);
 
-      // Update active section based on scroll position
-      const sections = navLinks.map(l => l.href.replace('#', ''));
+      if (window.scrollY < 120) {
+        setActive('about');
+        return;
+      }
+
+      const headerOffset = 80;
+      const sections = navLinks.map((l) => l.href.replace('#', ''));
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i]);
-        if (el && window.scrollY >= el.offsetTop - 100) {
+        if (el && window.scrollY >= el.offsetTop - headerOffset) {
           setActive(sections[i]);
           break;
         }
@@ -42,165 +44,169 @@ export default function Navbar() {
   }, []);
 
   const scrollTo = (href) => {
-    setMobileOpen(false);
     if (!isHome) {
       window.location.href = '/' + href;
       return;
     }
     const id = href.replace('#', '');
     const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    if (el) {
+      const headerOffset = 68;
+      const elementPosition = el.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+    }
   };
 
   return (
-    <>
-      <nav className={`navbar ${scrolled ? 'navbar-blur' : 'navbar-solid'}`}>
-        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
-          
-          {/* Logo */}
-          <Link to="/" style={{ textDecoration: 'none' }}>
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              style={{ display: 'flex', alignItems: 'center', gap: 8 }}
-            >
-              <div style={{
-                width: 38, height: 38, borderRadius: 10,
-                background: 'rgba(37,99,235,0.2)',
-                border: '1.5px solid rgba(37,99,235,0.4)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontWeight: 900, fontSize: '0.95rem', color: '#60a5fa',
-                letterSpacing: '-0.5px',
-              }}>
-                UP
-              </div>
-              <span style={{ color: '#FFFFFF', fontWeight: 700, fontSize: '1rem', letterSpacing: '-0.3px' }}>
-                Udhaya<span style={{ color: '#60a5fa' }}>.dev</span>
-              </span>
-            </motion.div>
-          </Link>
-
-          {/* Desktop Nav */}
+    <header className={`navbar ${scrolled ? 'navbar-blur' : 'navbar-solid'}`}>
+      <div className="navbar-inner">
+        {/* ─── Far Left: Brand Logo & Name ──────────────────────── */}
+        <Link to="/" style={{ textDecoration: 'none', flexShrink: 0 }}>
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            style={{ display: 'flex', alignItems: 'center', gap: 4 }}
-            className="hidden md:flex"
+            initial={{ opacity: 0, x: -15 }}
+            animate={{ opacity: 1, x: 0 }}
+            style={{ display: 'flex', alignItems: 'center', gap: 11 }}
           >
-            {isHome && navLinks.map((link) => {
+            <div
+              style={{
+                width: 38,
+                height: 38,
+                borderRadius: 10,
+                background: 'rgba(37,99,235,0.20)',
+                border: '1.5px solid rgba(96,165,250,0.35)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontWeight: 800,
+                fontSize: '0.95rem',
+                color: '#60A5FA',
+                letterSpacing: '-0.5px',
+              }}
+            >
+              UP
+            </div>
+            <span className="navbar-brand-name">
+              Udhaya P
+            </span>
+          </motion.div>
+        </Link>
+
+        {/* ─── Far Right: All 7 Navigation Links ───────────────── */}
+        <motion.nav
+          initial={{ opacity: 0, x: 15 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.1 }}
+          className="nav-links-container"
+        >
+          {isHome &&
+            navLinks.map((link) => {
               const id = link.href.replace('#', '');
               const isActive = active === id;
               return (
                 <button
                   key={link.label}
                   onClick={() => scrollTo(link.href)}
-                  style={{
-                    background: isActive ? 'rgba(37,99,235,0.15)' : 'transparent',
-                    color: isActive ? '#60a5fa' : '#94a3b8',
-                    border: 'none',
-                    cursor: 'pointer',
-                    padding: '6px 14px',
-                    borderRadius: 8,
-                    fontSize: '0.875rem',
-                    fontWeight: isActive ? 600 : 500,
-                    fontFamily: 'inherit',
-                    transition: 'all 0.2s ease',
-                  }}
-                  onMouseEnter={e => { if (!isActive) e.target.style.color = '#e2e8f0'; }}
-                  onMouseLeave={e => { if (!isActive) e.target.style.color = '#94a3b8'; }}
+                  className={`nav-item-btn ${isActive ? 'nav-item-active' : ''}`}
                 >
                   {link.label}
                 </button>
               );
             })}
-          </motion.div>
+        </motion.nav>
+      </div>
 
-          {/* Resume Button */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2 }}
-            style={{ display: 'flex', alignItems: 'center', gap: 8 }}
-          >
-            <a
-              href={personalInfo.resumeUrl}
-              download
-              className="btn-primary"
-              style={{ padding: '8px 18px', fontSize: '0.82rem', display: 'flex', alignItems: 'center', gap: 6 }}
-            >
-              <Download size={14} />
-              <span className="hidden sm:inline">Resume</span>
-            </a>
+      <style>{`
+        .navbar-inner {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          height: 100%;
+          padding: 0 clamp(20px, 3.5vw, 44px);
+          box-sizing: border-box;
+          gap: 16px;
+        }
 
-            {/* Mobile Menu Button */}
-            <button
-              className="md:hidden"
-              onClick={() => setMobileOpen(!mobileOpen)}
-              style={{
-                background: 'rgba(255,255,255,0.1)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                color: '#e2e8f0',
-                borderRadius: 8,
-                padding: '6px 8px',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                marginLeft: 8,
-              }}
-              aria-label="Toggle menu"
-            >
-              {mobileOpen ? <X size={18} /> : <Menu size={18} />}
-            </button>
-          </motion.div>
-        </div>
-      </nav>
+        .navbar-brand-name {
+          color: #FFFFFF;
+          font-weight: 800;
+          font-size: clamp(1.2rem, 1.6vw, 1.35rem);
+          font-family: var(--font-main);
+          letter-spacing: -0.02em;
+          white-space: nowrap;
+        }
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            style={{
-              position: 'fixed',
-              top: 72,
-              left: 0,
-              right: 0,
-              background: 'rgba(10,25,47,0.97)',
-              backdropFilter: 'blur(20px)',
-              zIndex: 999,
-              borderBottom: '1px solid rgba(255,255,255,0.08)',
-              overflow: 'hidden',
-            }}
-          >
-            <div style={{ padding: '16px 24px', display: 'flex', flexDirection: 'column', gap: 4 }}>
-              {navLinks.map((link) => (
-                <button
-                  key={link.label}
-                  onClick={() => scrollTo(link.href)}
-                  style={{
-                    background: 'transparent',
-                    border: 'none',
-                    color: '#94a3b8',
-                    fontSize: '0.95rem',
-                    fontWeight: 500,
-                    fontFamily: 'inherit',
-                    textAlign: 'left',
-                    padding: '12px 0',
-                    cursor: 'pointer',
-                    borderBottom: '1px solid rgba(255,255,255,0.06)',
-                    transition: 'color 0.2s',
-                  }}
-                >
-                  {link.label}
-                </button>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+        .nav-links-container {
+          display: flex;
+          align-items: center;
+          gap: clamp(6px, 1vw, 14px);
+          flex-wrap: wrap;
+          justify-content: flex-end;
+        }
+
+        .nav-item-btn {
+          background: transparent;
+          color: #FFFFFF;
+          border: 1px solid transparent;
+          cursor: pointer;
+          padding: 7px 14px;
+          border-radius: 8px;
+          font-size: 15.5px;
+          font-weight: 650;
+          font-family: var(--font-main);
+          transition: all 0.22s ease;
+          white-space: nowrap;
+          letter-spacing: -0.01em;
+        }
+
+        .nav-item-btn:hover {
+          color: #60A5FA;
+          background: rgba(37, 99, 235, 0.10);
+        }
+
+        .nav-item-active {
+          background: rgba(37, 99, 235, 0.18) !important;
+          color: #60A5FA !important;
+          border: 1px solid rgba(96, 165, 250, 0.35) !important;
+          font-weight: 700 !important;
+        }
+
+        @media (max-width: 900px) {
+          .nav-item-btn {
+            font-size: 14.5px;
+            padding: 6px 11px;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .navbar-inner {
+            padding: 0 16px;
+          }
+          .navbar-brand-name {
+            font-size: 1.15rem;
+          }
+          .nav-links-container {
+            overflow-x: auto;
+            flex-wrap: nowrap;
+            gap: 4px;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+            max-width: calc(100vw - 160px);
+          }
+          .nav-links-container::-webkit-scrollbar {
+            display: none;
+          }
+          .nav-item-btn {
+            padding: 5px 10px;
+            font-size: 13.5px;
+            font-weight: 600;
+          }
+        }
+      `}</style>
+    </header>
   );
 }

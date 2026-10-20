@@ -23,9 +23,17 @@ dist-ssr
 *.sln
 *.sw?
 
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Dependencies and build output
 node_modules/
 dist/
-.env
-.env.local
-.env.*.local
-.DS_Store
+dist-ssr/
+
+# Local-only files
+*.local
+

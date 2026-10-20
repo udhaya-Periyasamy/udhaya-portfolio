@@ -1,10 +1,13 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Building2, Calendar, ChevronRight } from 'lucide-react';
+import { Building2, Calendar, ChevronRight } from 'lucide-react';
 import { internships } from '../data/portfolioData';
 import { SectionHeader, fadeUp } from './AnimationUtils';
 
 export default function Internships() {
+  const [logoErrors, setLogoErrors] = useState({});
+
   return (
     <section id="internships" className="section section-alt">
       <div className="container">
@@ -12,14 +15,14 @@ export default function Internships() {
           badge="Work Experience"
           title="Internships"
           subtitle="Real-world experience building enterprise applications and AI tools."
+          center
         />
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 24 }}>
+        <div className="internships-grid">
           {internships.map((intern, i) => (
             <motion.div
               key={intern.id}
-              className="card"
-              style={{ overflow: 'hidden', padding: 0 }}
+              className="internship-card"
               variants={fadeUp}
               custom={i * 0.15}
               initial="hidden"
@@ -27,70 +30,91 @@ export default function Internships() {
               viewport={{ once: true, margin: '-40px' }}
               whileHover={{ y: -6, transition: { duration: 0.2 } }}
             >
-              {/* Color bar */}
+              {/* Accent color bar */}
               <div className="card-color-bar" style={{ background: intern.color }} />
 
-              <div style={{ padding: '28px 28px 24px' }}>
-                {/* Company */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <div style={{
-                      width: 48, height: 48, borderRadius: 12,
-                      background: 'rgba(37,99,235,0.08)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      border: '1px solid #E2E8F0',
-                    }}>
-                      <Building2 size={22} color="#2563EB" />
-                    </div>
-                    <div>
-                      <h3 style={{ fontWeight: 800, color: '#0A192F', fontSize: '0.95rem', lineHeight: 1.2 }}>
-                        {intern.company}
-                      </h3>
-                      <p style={{ color: '#2563EB', fontSize: '0.8rem', fontWeight: 600, marginTop: 2 }}>
-                        {intern.role}
-                      </p>
-                    </div>
+              <div className="internship-card-body">
+                {/* Header: Company Logo & Titles */}
+                <div className="internship-header">
+                  <div className="internship-logo-box">
+                    {!logoErrors[intern.id] && intern.logo ? (
+                      <img
+                        src={intern.logo}
+                        alt={intern.alt || `${intern.company} logo`}
+                        className="internship-logo-img"
+                        onError={() =>
+                          setLogoErrors((prev) => ({ ...prev, [intern.id]: true }))
+                        }
+                      />
+                    ) : (
+                      <Building2 size={24} color="#60a5fa" />
+                    )}
+                  </div>
+                  <div className="internship-title-group">
+                    <h3 className="internship-company-name">
+                      {intern.company}
+                    </h3>
+                    <p className="internship-role">
+                      {intern.role}
+                    </p>
                   </div>
                 </div>
 
                 {/* Duration */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 18, color: '#64748b', fontSize: '0.82rem' }}>
+                <div className="internship-duration">
                   <Calendar size={13} />
                   <span>{intern.duration}</span>
                 </div>
 
                 {/* Project */}
-                <div style={{
-                  background: '#F8FAFC',
-                  border: '1px solid #E2E8F0',
-                  borderRadius: 10,
-                  padding: '12px 14px',
-                  marginBottom: 18,
-                }}>
-                  <p style={{ color: '#64748b', fontSize: '0.7rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 4 }}>
-                    Project
-                  </p>
-                  <p style={{ color: '#0A192F', fontSize: '0.875rem', fontWeight: 600 }}>
-                    {intern.project.title}
-                  </p>
-                </div>
+                {intern.project && (
+                  <div className="internship-project-box">
+                    <p className="internship-project-label">
+                      Project
+                    </p>
+                    <p className="internship-project-title">
+                      {intern.project.title}
+                    </p>
+                  </div>
+                )}
 
-                {/* Tags */}
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 24 }}>
-                  {intern.tags.map(tag => (
-                    <span key={tag} className="tag">{tag}</span>
+                {/* Responsibilities Bullet Points */}
+                {intern.responsibilities && intern.responsibilities.length > 0 && (
+                  <div className="internship-responsibilities-box">
+                    <p className="internship-responsibilities-label">
+                      Key Responsibilities
+                    </p>
+                    <ul className="internship-responsibilities-list">
+                      {intern.responsibilities.slice(0, 3).map((resp, idx) => (
+                        <li key={idx} className="internship-responsibility-item">
+                          <span className="internship-bullet">•</span>
+                          <span>{resp}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Tech Tags */}
+                <div className="internship-tags">
+                  {intern.tags.map((tag) => (
+                    <span key={tag} className="tag">
+                      {tag}
+                    </span>
                   ))}
                 </div>
 
-                {/* View Details Button */}
-                <Link
-                  to={`/internships/${intern.id}`}
-                  className="btn-primary"
-                  style={{ width: '100%', justifyContent: 'center' }}
-                >
-                  View Details
-                  <ChevronRight size={16} />
-                </Link>
+                {/* View Details Button aligned to bottom */}
+                <div style={{ marginTop: 'auto', paddingTop: 8 }}>
+                  <Link
+                    to={`/internships/${intern.id}`}
+                    className="btn-primary"
+                    style={{ width: '100%', justifyContent: 'center' }}
+                  >
+                    View Details
+                    <ChevronRight size={16} />
+                  </Link>
+                </div>
               </div>
             </motion.div>
           ))}

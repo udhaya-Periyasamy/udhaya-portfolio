@@ -14,7 +14,7 @@ export default function ProjectDetails() {
     return (
       <PageTransition>
         <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
-          <h1 style={{ color: '#0A192F', fontWeight: 800, fontSize: '2rem' }}>Project not found</h1>
+          <h1 style={{ color: '#F8FAFC', fontWeight: 800, fontSize: '2rem' }}>Project not found</h1>
           <Link to="/" className="btn-primary">Go Home</Link>
         </div>
       </PageTransition>
@@ -97,18 +97,18 @@ export default function ProjectDetails() {
 
             {/* Overview */}
             <motion.div className="card" style={{ padding: '28px' }} variants={fadeUp} custom={0} initial="hidden" animate="visible">
-              <h2 style={{ fontWeight: 800, color: '#0A192F', fontSize: '1.1rem', marginBottom: 14 }}>Overview</h2>
-              <p style={{ color: '#475569', lineHeight: 1.75 }}>{project.overview}</p>
+              <h2 style={{ fontWeight: 800, color: '#F8FAFC', fontSize: '1.1rem', marginBottom: 14 }}>Overview</h2>
+              <p style={{ color: '#A7B2C5', lineHeight: 1.75 }}>{project.overview}</p>
             </motion.div>
 
             {/* Features */}
             <motion.div className="card" style={{ padding: '28px' }} variants={fadeUp} custom={0.05} initial="hidden" animate="visible">
-              <h2 style={{ fontWeight: 800, color: '#0A192F', fontSize: '1.1rem', marginBottom: 18 }}>Key Features</h2>
+              <h2 style={{ fontWeight: 800, color: '#F8FAFC', fontSize: '1.1rem', marginBottom: 18 }}>Key Features</h2>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }}>
                 {project.features.map((f, i) => (
-                  <div key={i} style={{ background: '#F8FAFC', border: '1px solid #E2E8F0', borderRadius: 10, padding: '16px' }}>
-                    <p style={{ fontWeight: 700, color: '#0A192F', fontSize: '0.875rem', marginBottom: 6 }}>{f.title}</p>
-                    <p style={{ color: '#64748b', fontSize: '0.82rem', lineHeight: 1.6 }}>{f.description}</p>
+                  <div key={i} style={{ background: '#080B12', border: '1px solid rgba(96, 165, 250, 0.20)', borderRadius: 10, padding: '16px' }}>
+                    <p style={{ fontWeight: 700, color: '#F8FAFC', fontSize: '0.875rem', marginBottom: 6 }}>{f.title}</p>
+                    <p style={{ color: '#A7B2C5', fontSize: '0.82rem', lineHeight: 1.6 }}>{f.description}</p>
                   </div>
                 ))}
               </div>
@@ -117,7 +117,7 @@ export default function ProjectDetails() {
             {/* Folder Structure */}
             {project.folderStructure && (
               <motion.div className="card" style={{ padding: '28px' }} variants={fadeUp} custom={0.1} initial="hidden" animate="visible">
-                <h2 style={{ fontWeight: 800, color: '#0A192F', fontSize: '1.1rem', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+                <h2 style={{ fontWeight: 800, color: '#F8FAFC', fontSize: '1.1rem', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
                   <Code2 size={18} color="#2563EB" />
                   Folder Structure
                 </h2>
@@ -139,7 +139,7 @@ export default function ProjectDetails() {
             {/* API Endpoints */}
             {project.apiEndpoints && (
               <motion.div className="card" style={{ padding: '28px' }} variants={fadeUp} custom={0.15} initial="hidden" animate="visible">
-                <h2 style={{ fontWeight: 800, color: '#0A192F', fontSize: '1.1rem', marginBottom: 18 }}>API Endpoints</h2>
+                <h2 style={{ fontWeight: 800, color: '#F8FAFC', fontSize: '1.1rem', marginBottom: 18 }}>API Endpoints</h2>
                 <div style={{ overflowX: 'auto' }}>
                   <table className="api-table">
                     <thead>
@@ -166,10 +166,10 @@ export default function ProjectDetails() {
             {/* Future Enhancements */}
             {project.futureEnhancements && (
               <motion.div className="card" style={{ padding: '28px' }} variants={fadeUp} custom={0.2} initial="hidden" animate="visible">
-                <h2 style={{ fontWeight: 800, color: '#0A192F', fontSize: '1.1rem', marginBottom: 16 }}>Future Enhancements</h2>
+                <h2 style={{ fontWeight: 800, color: '#F8FAFC', fontSize: '1.1rem', marginBottom: 16 }}>Future Enhancements</h2>
                 <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {project.futureEnhancements.map((fe, i) => (
-                    <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, color: '#475569', fontSize: '0.875rem', lineHeight: 1.6 }}>
+                    <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, color: '#A7B2C5', fontSize: '0.875rem', lineHeight: 1.6 }}>
                       <span style={{ color: '#2563EB', marginTop: 2, flexShrink: 0 }}>→</span>
                       {fe}
                     </li>
@@ -184,7 +184,7 @@ export default function ProjectDetails() {
 
             {/* Tech Stack breakdown */}
             <motion.div className="card" style={{ padding: '24px' }} variants={fadeUp} custom={0} initial="hidden" animate="visible">
-              <h3 style={{ fontWeight: 700, color: '#0A192F', fontSize: '0.9rem', marginBottom: 16 }}>Tech Stack</h3>
+              <h3 style={{ fontWeight: 700, color: '#F8FAFC', fontSize: '0.9rem', marginBottom: 16 }}>Tech Stack</h3>
               {Object.entries(project.techStack).map(([layer, techs]) => (
                 <div key={layer} style={{ marginBottom: 14 }}>
                   <p style={{ fontSize: '0.7rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>
@@ -201,7 +201,7 @@ export default function ProjectDetails() {
 
             {/* Links */}
             <motion.div className="card" style={{ padding: '24px' }} variants={fadeUp} custom={0.05} initial="hidden" animate="visible">
-              <h3 style={{ fontWeight: 700, color: '#0A192F', fontSize: '0.9rem', marginBottom: 12 }}>Links</h3>
+              <h3 style={{ fontWeight: 700, color: '#F8FAFC', fontSize: '0.9rem', marginBottom: 12 }}>Links</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {project.github && (
                   <a href={project.github} target="_blank" rel="noopener noreferrer" className="btn-outline" style={{ justifyContent: 'center' }}>

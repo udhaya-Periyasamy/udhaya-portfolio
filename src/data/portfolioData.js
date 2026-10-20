@@ -22,7 +22,7 @@ export const personalInfo = {
   shortBio:
     "CSE student specialising in Java Full Stack Development — building clean, scalable, enterprise-grade applications.",
   resumeUrl: "/resume/Udhaya_P_Resume.pdf", // Place your PDF at public/resume/
-  profileImage: "/assets/profile/profile.jpg", // Place your photo at public/assets/profile/
+  profileImage: "/assets/profile/profile.jpeg", // Place your photo at public/assets/profile/
   linkedin: "https://www.linkedin.com/in/udhaya-periyasamy",
   github: "https://github.com/udhaya-Periyasamy",
   leetcode: "https://leetcode.com/u/udhaya__16/",
@@ -31,10 +31,9 @@ export const personalInfo = {
 
 // ─── Typing Animation Roles ───────────────────────────────────────
 export const typingRoles = [
-  "Java Developer",
+  "Java Full Stack Developer",
+  "Java Frontend Developer",
   "Spring Boot Developer",
-  "Backend Developer",
-  "Full Stack Developer",
 ];
 
 // ─── Hero Info Cards ──────────────────────────────────────────────
@@ -49,12 +48,27 @@ export const heroCards = [
 export const education = [
   {
     id: 1,
-    degree: "B.E Computer Science Engineering",
+    degree: "B.E. Computer Science Engineering",
     institution: "Sri Sairam Institute of Technology",
     location: "Chennai, Tamil Nadu",
     duration: "2023 – 2027",
-    cgpa: "8.46",
+    scoreLabel: "CGPA",
+    score: "8.46",
     status: "Pursuing",
+    logo: "/assets/education/sairam-it-emblem.png",
+    alt: "Sri Sairam Institute of Technology logo",
+  },
+  {
+    id: 2,
+    degree: "Higher Secondary Education",
+    institution: "De Britto Hr. Sec. School",
+    location: "Devakottai, Tamil Nadu",
+    duration: "Completed",
+    scoreLabel: "Percentage",
+    score: "87%",
+    status: "Completed",
+    logo: "/assets/education/de-britto-logo.jpg",
+    alt: "De Britto Higher Secondary School logo",
   },
 ];
 
@@ -181,6 +195,65 @@ export const currentlyLearning = [
 // ─── Internships ──────────────────────────────────────────────────
 export const internships = [
   {
+    id: "infosys-springboard",
+    company: "Infosys Springboard Virtual Internship",
+    shortName: "Infosys Springboard",
+    role: "Java Full Stack Intern",
+    duration: "August 2026 – October 2026",
+    location: "Virtual / Remote, India",
+    logo: "/assets/companies/infosys-logo.png",
+    alt: "Infosys Springboard logo",
+    tags: ["Java", "Spring Boot", "React.js", "MySQL", "Docker", "REST API", "JWT"],
+    color: "#007CC3",
+    overview:
+      "Completed a virtual internship with Infosys Springboard, building an enterprise-grade full-stack coding assessment platform with automated evaluation and containerised code execution.",
+    project: {
+      title: "Coding Practice & Assessment Platform",
+      description:
+        "A full-stack coding practice and skill assessment platform featuring sandboxed multi-language code evaluation, interactive code editing, contest management, and live leaderboards.",
+    },
+    responsibilities: [
+      "Developed a full-stack coding practice platform using Spring Boot, React.js, MySQL, REST APIs, JWT, and role-based access control.",
+      "Built a Docker-based code execution and automated evaluation engine supporting Java, Python, C++, and JavaScript with public and hidden test cases.",
+      "Integrated Monaco Editor and implemented assessments, contests, hints, editorials, leaderboards, certifications, and performance tracking.",
+    ],
+    keyContributions: [
+      "Designed secure stateless JWT authentication and role-based access control (Admin, Evaluator, Candidate)",
+      "Engineered a Docker sandbox environment for safe multi-language code execution and real-time evaluation",
+      "Integrated Monaco Editor with syntax highlighting, custom themes, and automatic test case validation",
+      "Implemented contest leaderboards, hint systems, editorial solutions, and certification generation",
+    ],
+    techStack: [
+      "Java",
+      "Spring Boot",
+      "React.js",
+      "MySQL",
+      "Docker",
+      "REST API",
+      "JWT",
+      "Monaco Editor",
+      "Hibernate",
+    ],
+    challenges: [
+      {
+        challenge: "Secure execution of untrusted user code",
+        solution:
+          "Implemented isolated Docker containers with restricted network access, CPU/memory quotas, and execution timeouts.",
+      },
+      {
+        challenge: "Real-time performance evaluation and leaderboard tracking",
+        solution:
+          "Optimised database query indexing in MySQL and built asynchronous evaluation pipelines to handle high submission concurrency.",
+      },
+    ],
+    learningOutcomes: [
+      "Industry experience designing scalable full-stack applications with Spring Boot and React.js",
+      "Mastery of Docker containerisation for secure execution environments",
+      "Deep understanding of secure authentication, RESTful API design, and automated testing pipelines",
+    ],
+    gallery: [],
+  },
+  {
     id: "aai",
     company: "Airports Authority of India",
     shortName: "AAI",
@@ -188,6 +261,7 @@ export const internships = [
     duration: "Dec 2025 – Jan 2026",
     location: "Chennai, India",
     logo: "/assets/companies/aai-logo.png",
+    alt: "Airports Authority of India logo",
     tags: ["Java", "Spring Boot", "MySQL"],
     color: "#1e3a5f",
     overview:
@@ -198,12 +272,9 @@ export const internships = [
         "A full-stack enterprise web application designed to digitise the manual requisition and asset tracking workflow within AAI. The system streamlines the approval pipeline, reduces paperwork, and provides real-time inventory visibility.",
     },
     responsibilities: [
-      "Developed RESTful APIs using Spring Boot for requisition and inventory workflows",
-      "Designed and normalised the MySQL database schema for assets and requisitions",
-      "Built a Spring Security-based role authentication system (Admin / Staff)",
-      "Integrated Hibernate ORM for efficient database operations",
-      "Collaborated with the IT department to gather and refine requirements",
-      "Wrote unit and integration tests for critical business logic",
+      "Developed RESTful APIs using Spring Boot and Hibernate for requisition and inventory workflows.",
+      "Designed and normalised MySQL database schemas for asset tracking and approval pipelines.",
+      "Implemented Spring Security role-based access control (Admin/Staff) and automated status alerts.",
     ],
     keyContributions: [
       "Reduced manual paperwork through digital requisition forms",
@@ -240,6 +311,7 @@ export const internships = [
     duration: "June 2025",
     location: "Chennai, India",
     logo: "/assets/companies/approtech-logo.png",
+    alt: "Approtech R&D Solutions logo",
     tags: ["Python", "Flask", "XGBoost"],
     color: "#1a3c5e",
     overview:
@@ -253,6 +325,11 @@ export const internships = [
       "Wildfires cause massive socioeconomic disruption, but impact assessment relies heavily on post-event manual surveys. There was no proactive tool to predict impact scale before disaster response planning.",
     solution:
       "Built a Flask web application integrating an XGBoost classification model trained on historical wildfire, weather, and demographic data to predict impact severity and affected populations.",
+    responsibilities: [
+      "Built a Flask web app integrating an XGBoost model predicting wildfire socioeconomic impact (~87% accuracy).",
+      "Handled class imbalances with SMOTE and trained models on meteorological and demographic datasets.",
+      "Implemented location risk forms, visual impact reports, CSV batch processing, and automated SMTP alerts.",
+    ],
     features: [
       "Location-based wildfire risk prediction via input form",
       "XGBoost ML model with ~87% prediction accuracy",

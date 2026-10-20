@@ -1,73 +1,22 @@
-import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import emailjs from '@emailjs/browser';
-import {
-  Mail, Phone, MapPin, Send, CheckCircle, AlertCircle, Loader,
-} from 'lucide-react';
+import { Mail, Phone, MapPin } from 'lucide-react';
 import { FaGithub, FaLinkedin, FaCode } from 'react-icons/fa6';
-import { personalInfo, emailjsConfig } from '../data/portfolioData';
-import { SectionHeader, fadeUp, fadeLeft, fadeRight } from './AnimationUtils';
+import { personalInfo } from '../data/portfolioData';
+import { SectionHeader, fadeUp } from './AnimationUtils';
 
 const contactItems = [
   { icon: Mail, label: 'Email', value: personalInfo.email, href: `mailto:${personalInfo.email}` },
   { icon: Phone, label: 'Phone', value: personalInfo.phone, href: `tel:${personalInfo.phone}` },
-  { icon: MapPin, label: 'Location', value: personalInfo.location, href: '#' },
+  { icon: MapPin, label: 'Location', value: personalInfo.location, href: null },
 ];
 
 const socialLinks = [
   { icon: FaLinkedin, label: 'LinkedIn', href: personalInfo.linkedin, color: '#0A66C2' },
-  { icon: FaGithub, label: 'GitHub', href: personalInfo.github, color: '#181717' },
+  { icon: FaGithub, label: 'GitHub', href: personalInfo.github, color: '#F8FAFC' },
   { icon: FaCode, label: 'LeetCode', href: personalInfo.leetcode, color: '#F89F1B' },
 ];
 
 export default function Contact() {
-  const formRef = useRef(null);
-  const [status, setStatus] = useState('idle'); // idle | loading | success | error
-  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
-  const [errors, setErrors] = useState({});
-
-  const validate = () => {
-    const e = {};
-    if (!form.name.trim()) e.name = 'Name is required';
-    if (!form.email.trim()) e.email = 'Email is required';
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Enter a valid email';
-    if (!form.subject.trim()) e.subject = 'Subject is required';
-    if (!form.message.trim()) e.message = 'Message is required';
-    else if (form.message.trim().length < 20) e.message = 'Message must be at least 20 characters';
-    return e;
-  };
-
-  const handleChange = (e) => {
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
-    if (errors[e.target.name]) setErrors(prev => ({ ...prev, [e.target.name]: '' }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const validationErrors = validate();
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
-
-    setStatus('loading');
-    try {
-      await emailjs.sendForm(
-        emailjsConfig.serviceId,
-        emailjsConfig.templateId,
-        formRef.current,
-        emailjsConfig.publicKey,
-      );
-      setStatus('success');
-      setForm({ name: '', email: '', subject: '', message: '' });
-      setTimeout(() => setStatus('idle'), 5000);
-    } catch (err) {
-      console.error('EmailJS error:', err);
-      setStatus('error');
-      setTimeout(() => setStatus('idle'), 5000);
-    }
-  };
-
   return (
     <section id="contact" className="section section-alt">
       <div className="container">
@@ -78,198 +27,240 @@ export default function Contact() {
           center
         />
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 40, alignItems: 'start' }}>
-
-          {/* ─── LEFT — Contact Info ─────────────────────────────── */}
+        <div className="contact-wrapper">
           <motion.div
-            variants={fadeLeft}
-            custom={0}
+            variants={fadeUp}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <div className="card" style={{ padding: '32px 28px' }}>
-              <h3 style={{ fontWeight: 700, color: '#0A192F', fontSize: '1.1rem', marginBottom: 8 }}>
+            <div className="card contact-card">
+              <h3 className="contact-card-title">
                 Let's Connect
               </h3>
-              <p style={{ color: '#64748b', fontSize: '0.875rem', lineHeight: 1.65, marginBottom: 28 }}>
+              <p className="contact-card-desc">
                 I'm open to full-time roles, internships, and freelance projects. Feel free to reach out!
               </p>
 
-              {/* Contact Items */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 28 }}>
-                {contactItems.map(({ icon: Icon, label, value, href }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    style={{ display: 'flex', alignItems: 'center', gap: 14, textDecoration: 'none', padding: '12px 16px', borderRadius: 12, border: '1px solid #E2E8F0', background: '#F8FAFC', transition: 'all 0.2s ease' }}
-                    onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(37,99,235,0.3)'; e.currentTarget.style.background = 'rgba(37,99,235,0.02)'; }}
-                    onMouseLeave={e => { e.currentTarget.style.borderColor = '#E2E8F0'; e.currentTarget.style.background = '#F8FAFC'; }}
-                  >
-                    <div style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(37,99,235,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                      <Icon size={17} color="#2563EB" />
-                    </div>
-                    <div>
-                      <p style={{ fontSize: '0.7rem', fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</p>
-                      <p style={{ fontSize: '0.875rem', fontWeight: 600, color: '#1E293B', marginTop: 1 }}>{value}</p>
-                    </div>
-                  </a>
-                ))}
+              {/* Contact Items: Neat, evenly spaced rows */}
+              <div className="contact-items-list">
+                {contactItems.map(({ icon: Icon, label, value, href }) => {
+                  const isLink = Boolean(href);
+                  const Component = isLink ? 'a' : 'div';
+                  return (
+                    <Component
+                      key={label}
+                      {...(isLink ? { href } : {})}
+                      className="contact-item-row"
+                      style={!isLink ? { cursor: 'default' } : undefined}
+                    >
+                      <div className="contact-icon-box">
+                        <Icon size={18} color="#60A5FA" />
+                      </div>
+                      <div className="contact-item-content">
+                        <p className="contact-item-label">{label}</p>
+                        <p className="contact-item-value">{value}</p>
+                      </div>
+                    </Component>
+                  );
+                })}
               </div>
 
-              {/* Social Links */}
-              <div>
-                <p style={{ fontSize: '0.75rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>
+              {/* Social Profiles: Clean horizontal row */}
+              <div className="contact-social-section">
+                <p className="contact-social-label">
                   Social Profiles
                 </p>
-                <div style={{ display: 'flex', gap: 10 }}>
+                <div className="contact-social-list">
                   {socialLinks.map(({ icon: Icon, label, href, color }) => (
                     <a
                       key={label}
                       href={href}
                       target="_blank"
                       rel="noopener noreferrer"
+                      aria-label={label}
                       title={label}
-                      style={{
-                        width: 40, height: 40,
-                        borderRadius: 10,
-                        background: '#F8FAFC',
-                        border: '1px solid #E2E8F0',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        transition: 'all 0.2s ease',
-                        textDecoration: 'none',
-                      }}
-                      onMouseEnter={e => { e.currentTarget.style.background = color + '12'; e.currentTarget.style.borderColor = color + '40'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
-                      onMouseLeave={e => { e.currentTarget.style.background = '#F8FAFC'; e.currentTarget.style.borderColor = '#E2E8F0'; e.currentTarget.style.transform = 'translateY(0)'; }}
+                      className="contact-social-btn"
                     >
-                      <Icon size={17} color={color} />
+                      <Icon size={18} color={color} />
                     </a>
                   ))}
                 </div>
               </div>
             </div>
           </motion.div>
-
-          {/* ─── RIGHT — Contact Form ────────────────────────────── */}
-          <motion.div
-            variants={fadeRight}
-            custom={0}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            <div className="card" style={{ padding: '32px 28px' }}>
-              <h3 style={{ fontWeight: 700, color: '#0A192F', fontSize: '1.1rem', marginBottom: 24 }}>
-                Send a Message
-              </h3>
-
-              <form ref={formRef} onSubmit={handleSubmit} noValidate>
-                {/* Name & Email row */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 0 }}>
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="name">Full Name *</label>
-                    <input
-                      id="name"
-                      name="name"
-                      type="text"
-                      className="form-input"
-                      placeholder="John Doe"
-                      value={form.name}
-                      onChange={handleChange}
-                      style={errors.name ? { borderColor: '#EF4444' } : {}}
-                    />
-                    {errors.name && <p style={{ color: '#EF4444', fontSize: '0.75rem', marginTop: 4 }}>{errors.name}</p>}
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="email">Email *</label>
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      className="form-input"
-                      placeholder="john@example.com"
-                      value={form.email}
-                      onChange={handleChange}
-                      style={errors.email ? { borderColor: '#EF4444' } : {}}
-                    />
-                    {errors.email && <p style={{ color: '#EF4444', fontSize: '0.75rem', marginTop: 4 }}>{errors.email}</p>}
-                  </div>
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label" htmlFor="subject">Subject *</label>
-                  <input
-                    id="subject"
-                    name="subject"
-                    type="text"
-                    className="form-input"
-                    placeholder="Job Opportunity / Collaboration / Query"
-                    value={form.subject}
-                    onChange={handleChange}
-                    style={errors.subject ? { borderColor: '#EF4444' } : {}}
-                  />
-                  {errors.subject && <p style={{ color: '#EF4444', fontSize: '0.75rem', marginTop: 4 }}>{errors.subject}</p>}
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label" htmlFor="message">Message *</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    className="form-input"
-                    placeholder="Tell me about the opportunity or how I can help you..."
-                    value={form.message}
-                    onChange={handleChange}
-                    rows={5}
-                    style={errors.message ? { borderColor: '#EF4444' } : {}}
-                  />
-                  {errors.message && <p style={{ color: '#EF4444', fontSize: '0.75rem', marginTop: 4 }}>{errors.message}</p>}
-                </div>
-
-                {/* Submit */}
-                <button
-                  type="submit"
-                  className="btn-primary"
-                  style={{ width: '100%', justifyContent: 'center', opacity: status === 'loading' ? 0.8 : 1 }}
-                  disabled={status === 'loading'}
-                >
-                  {status === 'loading' ? (
-                    <><Loader size={16} style={{ animation: 'spin 1s linear infinite' }} /> Sending...</>
-                  ) : (
-                    <><Send size={16} /> Send Message</>
-                  )}
-                </button>
-
-                {/* Status Messages */}
-                {status === 'success' && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 12, color: '#10B981', background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.2)', borderRadius: 8, padding: '10px 14px', fontSize: '0.875rem' }}
-                  >
-                    <CheckCircle size={16} />
-                    Message sent successfully! I'll get back to you soon.
-                  </motion.div>
-                )}
-                {status === 'error' && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 12, color: '#EF4444', background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 8, padding: '10px 14px', fontSize: '0.875rem' }}
-                  >
-                    <AlertCircle size={16} />
-                    Failed to send. Please try emailing me directly at {personalInfo.email}
-                  </motion.div>
-                )}
-              </form>
-            </div>
-          </motion.div>
-
         </div>
       </div>
 
       <style>{`
-        @keyframes spin { to { transform: rotate(360deg); } }
+        .contact-wrapper {
+          width: 100%;
+          max-width: 780px;
+          margin: 0 auto;
+          box-sizing: border-box;
+        }
+
+        .contact-card {
+          padding: clamp(28px, 4vw, 40px) clamp(22px, 4vw, 36px);
+          background: rgba(13, 19, 32, 0.85);
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
+          border: 1px solid rgba(96, 165, 250, 0.20);
+          border-radius: 16px;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          box-sizing: border-box;
+        }
+
+        .contact-card:hover {
+          border-color: rgba(96, 165, 250, 0.40);
+          box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65), 0 0 20px rgba(37, 99, 235, 0.16);
+          transform: translateY(-2px);
+        }
+
+        .contact-card-title {
+          font-weight: 750;
+          color: #F8FAFC;
+          font-size: clamp(1.2rem, 2vw, 1.35rem);
+          margin-bottom: 8px;
+          line-height: 1.3;
+        }
+
+        .contact-card-desc {
+          color: #A7B2C5;
+          font-size: clamp(0.875rem, 1.2vw, 0.95rem);
+          line-height: 1.65;
+          margin-bottom: 28px;
+        }
+
+        .contact-items-list {
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
+          margin-bottom: 28px;
+        }
+
+        .contact-item-row {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          text-decoration: none;
+          padding: 14px 18px;
+          border-radius: 12px;
+          border: 1px solid rgba(96, 165, 250, 0.20);
+          background: rgba(8, 11, 18, 0.75);
+          transition: all 0.22s ease;
+          box-sizing: border-box;
+        }
+
+        a.contact-item-row:hover {
+          border-color: rgba(96, 165, 250, 0.50);
+          background: rgba(37, 99, 235, 0.12);
+          transform: translateY(-2px);
+        }
+
+        .contact-icon-box {
+          width: 42px;
+          height: 42px;
+          border-radius: 10px;
+          background: rgba(37, 99, 235, 0.15);
+          border: 1px solid rgba(96, 165, 250, 0.25);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          transition: all 0.22s ease;
+        }
+
+        a.contact-item-row:hover .contact-icon-box {
+          background: rgba(37, 99, 235, 0.25);
+          border-color: #60A5FA;
+          transform: scale(1.05);
+        }
+
+        .contact-item-content {
+          min-width: 0;
+          flex: 1;
+        }
+
+        .contact-item-label {
+          font-size: 0.72rem;
+          font-weight: 700;
+          color: #A7B2C5;
+          text-transform: uppercase;
+          letter-spacing: 0.06em;
+          margin: 0;
+          line-height: 1.2;
+        }
+
+        .contact-item-value {
+          font-size: clamp(0.875rem, 1.2vw, 0.98rem);
+          font-weight: 600;
+          color: #F8FAFC;
+          margin-top: 2px;
+          margin-bottom: 0;
+          line-height: 1.35;
+          overflow-wrap: anywhere;
+          word-break: break-word;
+        }
+
+        .contact-social-section {
+          padding-top: 4px;
+        }
+
+        .contact-social-label {
+          font-size: 0.75rem;
+          font-weight: 700;
+          color: #A7B2C5;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          margin-bottom: 14px;
+        }
+
+        .contact-social-list {
+          display: flex;
+          gap: 12px;
+          align-items: center;
+          flex-wrap: wrap;
+        }
+
+        .contact-social-btn {
+          width: 44px;
+          height: 44px;
+          border-radius: 11px;
+          background: rgba(8, 11, 18, 0.75);
+          border: 1px solid rgba(96, 165, 250, 0.20);
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+          text-decoration: none;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        .contact-social-btn:hover {
+          background: rgba(37, 99, 235, 0.20);
+          border-color: #60A5FA;
+          transform: translateY(-2px);
+          box-shadow: 0 6px 18px rgba(37, 99, 235, 0.30);
+        }
+
+        @media (max-width: 640px) {
+          .contact-wrapper {
+            padding: 0 4px;
+          }
+          .contact-card {
+            padding: 24px 18px;
+          }
+          .contact-item-row {
+            padding: 12px 14px;
+            gap: 12px;
+          }
+          .contact-icon-box {
+            width: 38px;
+            height: 38px;
+          }
+        }
       `}</style>
     </section>
   );

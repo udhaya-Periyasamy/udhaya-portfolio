@@ -13,6 +13,7 @@ export default function Achievements() {
           badge="Highlights"
           title="Achievements"
           subtitle="Academic excellence, leadership roles and recognition beyond the classroom."
+          center
         />
 
         <div style={{ maxWidth: 800, margin: '0 auto' }}>
@@ -42,17 +43,17 @@ export default function Achievements() {
                       </div>
                       <div style={{ flex: 1 }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 8, marginBottom: 4 }}>
-                          <h3 style={{ fontWeight: 800, color: '#0A192F', fontSize: '0.95rem' }}>{ach.title}</h3>
+                          <h3 style={{ fontWeight: 800, color: '#F8FAFC', fontSize: '0.95rem' }}>{ach.title}</h3>
                           <span style={{
                             display: 'flex', alignItems: 'center', gap: 4,
-                            color: '#94a3b8', fontSize: '0.78rem',
+                            color: '#A7B2C5', fontSize: '0.78rem',
                           }}>
                             <Calendar size={12} />
                             {ach.date}
                           </span>
                         </div>
-                        <p style={{ color: '#2563EB', fontSize: '0.82rem', fontWeight: 600, marginBottom: 8 }}>{ach.event}</p>
-                        <p style={{ color: '#64748b', fontSize: '0.875rem', lineHeight: 1.65 }}>{ach.description}</p>
+                        <p style={{ color: '#60a5fa', fontSize: '0.82rem', fontWeight: 600, marginBottom: 8 }}>{ach.event}</p>
+                        <p style={{ color: '#A7B2C5', fontSize: '0.875rem', lineHeight: 1.65 }}>{ach.description}</p>
                       </div>
                     </div>
                   </div>

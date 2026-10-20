@@ -8,7 +8,7 @@ export default function NotFound() {
     <PageTransition>
       <div style={{
         minHeight: '100vh',
-        background: '#0A192F',
+        background: '#080B12',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -45,10 +45,10 @@ export default function NotFound() {
             404
           </p>
 
-          <h1 style={{ color: '#FFFFFF', fontWeight: 800, fontSize: 'clamp(1.5rem, 4vw, 2.5rem)', marginBottom: 12 }}>
+          <h1 style={{ color: '#F8FAFC', fontWeight: 800, fontSize: 'clamp(1.5rem, 4vw, 2.5rem)', marginBottom: 12 }}>
             Page Not Found
           </h1>
-          <p style={{ color: '#64748b', fontSize: '1rem', maxWidth: 400, margin: '0 auto 40px', lineHeight: 1.65 }}>
+          <p style={{ color: '#A7B2C5', fontSize: '1rem', maxWidth: 400, margin: '0 auto 40px', lineHeight: 1.65 }}>
             The page you're looking for doesn't exist or has been moved. Let's get you back on track.
           </p>
 
@@ -60,7 +60,7 @@ export default function NotFound() {
             <button
               onClick={() => window.history.back()}
               className="btn-outline"
-              style={{ background: 'rgba(255,255,255,0.05)', border: '1.5px solid rgba(255,255,255,0.12)', color: '#e2e8f0' }}
+              style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(96,165,250,0.20)', color: '#F8FAFC' }}
             >
               <ArrowLeft size={16} />
               Go Back

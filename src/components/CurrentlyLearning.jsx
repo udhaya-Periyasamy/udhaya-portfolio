@@ -40,17 +40,17 @@ export default function CurrentlyLearning() {
                   <Icon size={24} color={item.color} />
                 </div>
 
-                <h3 style={{ fontWeight: 700, color: '#0A192F', fontSize: '1rem', marginBottom: 8 }}>
+                <h3 style={{ fontWeight: 700, color: '#F8FAFC', fontSize: '1rem', marginBottom: 8 }}>
                   {item.title}
                 </h3>
-                <p style={{ color: '#64748b', fontSize: '0.85rem', lineHeight: 1.6, marginBottom: 16 }}>
+                <p style={{ color: '#A7B2C5', fontSize: '0.85rem', lineHeight: 1.6, marginBottom: 16 }}>
                   {item.description}
                 </p>
 
                 {/* Progress */}
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                    <span style={{ fontSize: '0.72rem', fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Progress</span>
+                    <span style={{ fontSize: '0.72rem', fontWeight: 600, color: '#A7B2C5', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Progress</span>
                     <span style={{ fontSize: '0.75rem', fontWeight: 700, color: item.color }}>{item.progress}%</span>
                   </div>
                   <div className="skill-progress-track">

@@ -156,9 +156,10 @@ export default function Certifications() {
       <div className="container">
 
         <SectionHeader
-          eyebrow="CREDENTIALS"
+          badge="CREDENTIALS"
           title="Certifications"
-          description="Industry-recognised certifications and academic achievements."
+          subtitle="Industry-recognised certifications and academic achievements."
+          center
         />
 
         <div
@@ -254,7 +255,7 @@ export default function Certifications() {
               <h3
                 style={{
                   fontWeight: 800,
-                  color: '#0A192F',
+                  color: '#F8FAFC',
                   fontSize: '1rem',
                   marginBottom: 4,
                   lineHeight: 1.3,
@@ -266,7 +267,7 @@ export default function Certifications() {
               {/* Issuer */}
               <p
                 style={{
-                  color: '#2563EB',
+                  color: '#60a5fa',
                   fontSize: '0.85rem',
                   fontWeight: 600,
                   marginBottom: 2,
@@ -278,7 +279,7 @@ export default function Certifications() {
               {/* Date */}
               <p
                 style={{
-                  color: '#94a3b8',
+                  color: '#A7B2C5',
                   fontSize: '0.78rem',
                   marginBottom: 20,
                 }}
